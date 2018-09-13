@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.sp</groupId>
-    <artifactId>demo_sb</artifactId>
+    <artifactId>questionnaire_online</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>demo_sb</name>
-    <description>Demo project for Spring Boot</description>
+    <name>questionnaire_online</name>
+    <description>questionnaire_online project for Spring Boot</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -62,6 +62,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib-ext-spring -->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib-ext-spring</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
 
     </dependencies>
 

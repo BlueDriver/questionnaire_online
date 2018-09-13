@@ -1,0 +1,46 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="Register,Login" />
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<meta name="format-detection" content="telephone=no,email=no,date=no,address=no"/>
+	<title>ajax text</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<style>
+		input{
+			width: 50vw;
+			font-size: 20px;
+		}
+		#result{
+			background-color: #51a42e;
+			padding: 10px;
+		}
+		button{
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+	<h1>最好打开控制台测试</h1>
+	<div></div>
+	<h3 id="result"></h3>
+	<input id="input" value="http://localhost:8123/demo/test" placeholder="请求的URL"></input><br>
+	<button id="btn">获取数据</button>
+</body>
+<script type="text/javascript">
+	$("#btn").click(function(){
+		console.log("click")
+		$("#result").text("")
+		$.ajax({
+			url: $("#input").val(),
+			method: "get",
+			success: res=>{
+				console.log(res)
+				$("#result").text(res)
+			}
+		})
+	})
+</script>
+</script>
+</html>
