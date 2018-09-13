@@ -1,4 +1,4 @@
-package com.sp.demo_sb.entity;
+package com.sp.questionnaire.entity;
 
 import lombok.*;
 import lombok.experimental.Accessors;

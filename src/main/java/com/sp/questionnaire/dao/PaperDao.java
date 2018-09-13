@@ -1,7 +1,7 @@
-package com.sp.demo_sb.dao;
+package com.sp.questionnaire.dao;
 
-import com.sp.demo_sb.entity.Paper;
-import com.sp.demo_sb.entity.User;
+import com.sp.questionnaire.entity.Paper;
+import com.sp.questionnaire.entity.User;
 
 import java.util.List;
 

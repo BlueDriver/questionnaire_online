@@ -1,6 +1,6 @@
-package com.sp.demo_sb.dao;
+package com.sp.questionnaire.dao;
 
-import com.sp.demo_sb.entity.Answer;
+import com.sp.questionnaire.entity.Answer;
 
 import java.util.Date;
 import java.util.List;

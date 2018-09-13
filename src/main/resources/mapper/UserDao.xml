@@ -2,27 +2,27 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sp.demo_sb.dao.UserDao">
+<mapper namespace="com.sp.questionnaire.dao.UserDao">
 
-    <select id="queryUser" resultType="com.sp.demo_sb.entity.User">
+    <select id="queryUser" resultType="com.sp.questionnaire.entity.User">
         SELECT id, username,password, email, create_time,last_login_time,status,random_code FROM user
         ORDER BY id DESC
     </select>
 
-    <select id="queryUserByID" resultType="com.sp.demo_sb.entity.User">
+    <select id="queryUserByID" resultType="com.sp.questionnaire.entity.User">
         SELECT id, username,password, email, create_time,last_login_time,status,random_code FROM user
         WHERE
         id=#{id}
     </select>
 
     <insert id="insertUser" keyProperty="id" keyColumn="id"
-            parameterType="com.sp.demo_sb.entity.User" >
+            parameterType="com.sp.questionnaire.entity.User" >
         INSERT INTO user(id, username,password, email, create_time,last_login_time,status,random_code)
         VALUES
         (#{id}, #{username},#{password}, #{email}, #{createTime},#{lastLoginTime},#{status},#{randomCode})
     </insert>
 
-    <update id="updateUser" parameterType="com.sp.demo_sb.entity.User">
+    <update id="updateUser" parameterType="com.sp.questionnaire.entity.User">
         UPDATE user
         <set>
             <if test="username != null">username = #{username},</if>

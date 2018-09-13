@@ -1,7 +1,7 @@
-package com.sp.demo_sb.service;
+package com.sp.questionnaire.service;
 
 
-import com.sp.demo_sb.entity.User;
+import com.sp.questionnaire.entity.User;
 
 import java.util.List;
 

@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sp.demo_sb.dao.PaperDao">
+<mapper namespace="com.sp.questionnaire.dao.PaperDao">
 
-    <select id="queryPaper" resultType="com.sp.demo_sb.entity.Paper">
+    <select id="queryPaper" resultType="com.sp.questionnaire.entity.Paper">
         SELECT
             id,
             user_id,
@@ -17,7 +17,7 @@
         ORDER BY id DESC
     </select>
 
-    <select id="queryPaperByUserID" resultType="com.sp.demo_sb.entity.Paper">
+    <select id="queryPaperByUserID" resultType="com.sp.questionnaire.entity.Paper">
         SELECT
             id,
             user_id,
@@ -31,7 +31,7 @@
         user_id=#{userId}
     </select>
 
-    <select id="queryPaperByID" resultType="com.sp.demo_sb.entity.Paper">
+    <select id="queryPaperByID" resultType="com.sp.questionnaire.entity.Paper">
         SELECT
         id,
         user_id,
@@ -46,7 +46,7 @@
     </select>
 
     <insert id="insertPaper" keyProperty="id" keyColumn="id"
-            parameterType="com.sp.demo_sb.entity.Paper" >
+            parameterType="com.sp.questionnaire.entity.Paper" >
         INSERT INTO paper(
             id,
             user_id,
@@ -59,7 +59,7 @@
         (#{id}, #{userId},#{title}, #{createTime}, #{status},#{startTime},#{endTime})
     </insert>
 
-    <update id="updatePaper" parameterType="com.sp.demo_sb.entity.Paper">
+    <update id="updatePaper" parameterType="com.sp.questionnaire.entity.Paper">
         UPDATE paper
         <set>
             <if test="userId != null">user_id = #{userId},</if>
@@ -78,7 +78,7 @@
         WHERE id = #{id}
     </delete>
 
-    <select id="queryPaperByTitle" resultType="com.sp.demo_sb.entity.Paper">
+    <select id="queryPaperByTitle" resultType="com.sp.questionnaire.entity.Paper">
         SELECT
         id,
         user_id,

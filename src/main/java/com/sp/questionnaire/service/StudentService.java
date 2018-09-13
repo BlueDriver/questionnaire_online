@@ -1,6 +1,8 @@
-package com.sp.demo_sb.service;
+package com.sp.questionnaire.service;
 
-import com.sp.demo_sb.entity.Student;
+
+
+import com.sp.questionnaire.entity.Student;
 
 import java.util.List;
 

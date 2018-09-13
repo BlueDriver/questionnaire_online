@@ -1,8 +1,9 @@
-package com.sp.demo_sb.service.impl;
+package com.sp.questionnaire.service.impl;
 
-import com.sp.demo_sb.dao.StudentDao;
-import com.sp.demo_sb.entity.Student;
-import com.sp.demo_sb.service.StudentService;
+import com.sp.questionnaire.service.StudentService;
+import com.sp.questionnaire.dao.StudentDao;
+import com.sp.questionnaire.entity.Student;
+import com.sp.questionnaire.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

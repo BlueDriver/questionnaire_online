@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sp.demo_sb.dao.QuestionDao">
+<mapper namespace="com.sp.questionnaire.dao.QuestionDao">
 
-    <select id="queryQuestion" resultType="com.sp.demo_sb.entity.Question">
+    <select id="queryQuestion" resultType="com.sp.questionnaire.entity.Question">
         SELECT id,
             papper_id,
             create_time,
@@ -15,7 +15,7 @@
         ORDER BY id DESC
     </select>
 
-    <select id="queryQusetionByPaperId" resultType="com.sp.demo_sb.entity.Question">
+    <select id="queryQusetionByPaperId" resultType="com.sp.questionnaire.entity.Question">
         SELECT id,
             papper_id,
             create_time,
@@ -27,7 +27,7 @@
         papper_id=#{papperId}
     </select>
 
-    <select id="queryQuestionById" resultType="com.sp.demo_sb.entity.Question">
+    <select id="queryQuestionById" resultType="com.sp.questionnaire.entity.Question">
         SELECT id,
         papper_id,
         create_time,
@@ -40,7 +40,7 @@
     </select>
 
     <insert id="insertQuestion" keyProperty="id" keyColumn="id"
-            parameterType="com.sp.demo_sb.entity.Question" >
+            parameterType="com.sp.questionnaire.entity.Question" >
         INSERT INTO question(
             id,
             papper_id,
@@ -52,7 +52,7 @@
         (#{id}, #{papperId},#{createTime}, #{questionType}, #{questionTitle},#{questionOption})
     </insert>
 
-    <update id="updateQuestion" parameterType="com.sp.demo_sb.entity.Question">
+    <update id="updateQuestion" parameterType="com.sp.questionnaire.entity.Question">
         UPDATE question
         <set>
             <if test="papperId != null">papper_id = #{papperId},</if>
