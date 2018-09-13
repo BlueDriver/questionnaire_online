@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sp.demo_sb.dao.UserDao">
+
+    <select id="queryUser" resultType="com.sp.demo_sb.entity.User">
+        SELECT id, username,password, email, create_time,last_login_time,status,random_code FROM user
+        ORDER BY id DESC
+    </select>
+
+    <select id="queryUserByID" resultType="com.sp.demo_sb.entity.User">
+        SELECT id, username,password, email, create_time,last_login_time,status,random_code FROM user
+        WHERE
+        id=#{id}
+    </select>
+
+    <insert id="insertUser" keyProperty="id" keyColumn="id"
+            parameterType="com.sp.demo_sb.entity.User" >
+        INSERT INTO user(id, username,password, email, create_time,last_login_time,status,random_code)
+        VALUES
+        (#{id}, #{username},#{password}, #{email}, #{createTime},#{lastLoginTime},#{status},#{randomCode})
+    </insert>
+
+    <update id="updateUser" parameterType="com.sp.demo_sb.entity.User">
+        UPDATE user
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="lastLoginTime != null">last_login_time = #{lastLoginTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="randomCode != null">random_code = #{randomCode}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteUser">
+        DELETE FROM
+        user
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

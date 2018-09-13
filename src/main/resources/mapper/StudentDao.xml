@@ -2,27 +2,27 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sp.questionnaire.dao.StudentDao">
+<mapper namespace="com.sp.demo_sb.dao.StudentDao">
 
-    <select id="queryStudent" resultType="com.sp.questionnaire.entity.Student">
+    <select id="queryStudent" resultType="com.sp.demo_sb.entity.Student">
         SELECT std_number, name, age, birth FROM student
         ORDER BY std_number DESC
     </select>
 
-    <select id="queryStudentByID" resultType="com.sp.questionnaire.entity.Student">
+    <select id="queryStudentByID" resultType="com.sp.demo_sb.entity.Student">
         SELECT std_number, name, age, birth FROM student
         WHERE
         std_number=#{id}
     </select>
 
     <insert id="insertStudent" keyProperty="stdNumber" keyColumn="std_number"
-            parameterType="com.sp.questionnaire.entity.Student" >
+            parameterType="com.sp.demo_sb.entity.Student" >
         INSERT INTO student(std_number, name, age, birth)
         VALUES
         (#{stdNumber}, #{name}, #{age}, #{birth})
     </insert>
     
-    <update id="updateStudent" parameterType="com.sp.questionnaire.entity.Student">
+    <update id="updateStudent" parameterType="com.sp.demo_sb.entity.Student">
         UPDATE student
         <set>
             <if test="name != null">name = #{name},</if>

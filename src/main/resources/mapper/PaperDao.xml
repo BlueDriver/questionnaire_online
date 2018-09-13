@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sp.demo_sb.dao.PaperDao">
+
+    <select id="queryPaper" resultType="com.sp.demo_sb.entity.Paper">
+        SELECT
+            id,
+            user_id,
+            title,
+            create_time,
+            status,
+            start_time,
+            end_time
+        FROM paper
+        ORDER BY id DESC
+    </select>
+
+    <select id="queryPaperByUserID" resultType="com.sp.demo_sb.entity.Paper">
+        SELECT
+            id,
+            user_id,
+            title,
+            create_time,
+            status,
+            start_time,
+            end_time
+        FROM paper
+        WHERE
+        user_id=#{userId}
+    </select>
+
+    <select id="queryPaperByID" resultType="com.sp.demo_sb.entity.Paper">
+        SELECT
+        id,
+        user_id,
+        title,
+        create_time,
+        status,
+        start_time,
+        end_time
+        FROM paper
+        WHERE
+        id=#{id}
+    </select>
+
+    <insert id="insertPaper" keyProperty="id" keyColumn="id"
+            parameterType="com.sp.demo_sb.entity.Paper" >
+        INSERT INTO paper(
+            id,
+            user_id,
+            title,
+            create_time,
+            status,
+            start_time,
+            end_time)
+        VALUES
+        (#{id}, #{userId},#{title}, #{createTime}, #{status},#{startTime},#{endTime})
+    </insert>
+
+    <update id="updatePaper" parameterType="com.sp.demo_sb.entity.Paper">
+        UPDATE paper
+        <set>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="endTime != null">end_time = #{endTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deletePaper">
+        DELETE FROM
+        paper
+        WHERE id = #{id}
+    </delete>
+
+    <select id="queryPaperByTitle" resultType="com.sp.demo_sb.entity.Paper">
+        SELECT
+        id,
+        user_id,
+        title,
+        create_time,
+        status,
+        start_time,
+        end_time
+        FROM paper
+        WHERE
+        title LIKE "%"#{title}"%"
+    </select>
+
+</mapper>

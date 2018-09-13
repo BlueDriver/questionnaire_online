@@ -14,5 +14,9 @@
 
         <!-- 自动驼峰命名规则映射，即从数据库列名 A_COLUMN 到aColumn 的映射 default: false-->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
+
+        <!-- print sql -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+
     </settings>
 </configuration>

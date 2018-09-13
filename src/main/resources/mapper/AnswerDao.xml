@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sp.demo_sb.dao.AnswerDao">
+
+    <select id="queryAnswer" resultType="com.sp.demo_sb.entity.Answer">
+        SELECT id,
+            paper_id,
+            question_id,
+            question_type,
+            create_time,
+            answer_content
+        FROM answer
+        ORDER BY id DESC
+    </select>
+
+    <select id="queryAnswerByPaperId" resultType="com.sp.demo_sb.entity.Answer">
+         SELECT id,
+            paper_id,
+            question_id,
+            question_type,
+            create_time,
+            answer_content
+        FROM answer
+        WHERE
+        paper_id=#{paperId}
+        ORDER BY id DESC
+    </select>
+
+    <select id="queryAnswerByQuestionId" resultType="com.sp.demo_sb.entity.Answer">
+        SELECT id,
+        paper_id,
+        question_id,
+        question_type,
+        create_time,
+        answer_content
+        FROM answer
+        WHERE
+        question_id=#{questionId}
+        ORDER BY id DESC
+    </select>
+
+
+    <select id="queryAnswerById" resultType="com.sp.demo_sb.entity.Answer">
+        SELECT id,
+        paper_id,
+        question_id,
+        question_type,
+        create_time,
+        answer_content
+        FROM answer
+        WHERE
+        id=#{id}
+    </select>
+
+    <insert id="insertAnswer" keyProperty="id" keyColumn="id"
+            parameterType="com.sp.demo_sb.entity.Answer" >
+        INSERT INTO answer(id,
+        paper_id,
+        question_id,
+        question_type,
+        create_time,
+        answer_content)
+        VALUES
+        (#{id}, #{paperId},#{questionId}, #{questionType}, #{createTime},#{answerContent})
+    </insert>
+
+    <update id="updateAnswer" parameterType="com.sp.demo_sb.entity.Answer">
+        UPDATE answer
+        <set>
+            <if test="paperId != null">paper_id = #{paperId},</if>
+            <if test="questionId != null">question_id = #{questionId},</if>
+            <if test="questionType != null">question_type = #{questionType},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="answerContent != null">answer_content = #{answerContent}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteAnswer">
+        DELETE FROM
+        answer
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
