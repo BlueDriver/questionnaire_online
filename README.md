@@ -224,10 +224,10 @@ title       |String|Y| 2-64个字符 | 问卷名称
 start_time  |String|N| 10个字符   | 开始日期
 end_time    |String|N| 10个字符   | 结束日期
 status      |int   |Y| [1,2]     | 问卷状态，0：未发布；1：发布（此时start_time和end_time必须有合法取值）；
-questions   |List  |Y| -          | 问题列表
+questions   |Array  |Y| -          | 问题列表
 question_type|int  |Y|[1,2,3]     |1：单选题；2：多选题；3：简答题；
 question_title|String|Y| 2-128个字符 |问题标题
-question_option|List或String |Y| -         |问题选项，选择题是List，简答题为空字符串
+question_option|Array或String |Y| -         |问题选项，选择题是Array，简答题为空字符串
 #### 返回参数
 返回示例
 ```

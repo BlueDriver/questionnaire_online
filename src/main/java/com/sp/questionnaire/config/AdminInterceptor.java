@@ -39,11 +39,16 @@ public class AdminInterceptor implements HandlerInterceptor {
         //controller方法调用之前
         System.out.println("admin preHandler");
         String url = request.getRequestURI();
+
         if (url.indexOf("admin") >= 0) {
             //登录成功后将uesr信息存入session，以验证是否登录
             if(request.getSession().getAttribute("user") != null){
                 return true;
             }else{
+                //TODO
+                //System.out.println(request.getServletPath());
+                //System.out.println(request.getLocalAddr() + request.getContextPath() + "/test");
+                request.getRequestDispatcher("/test").forward(request,response);
                 return false;
             }
         }else{
