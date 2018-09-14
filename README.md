@@ -3,7 +3,6 @@
 
 编码方式均为UTF-8
 
-
 ## 1.管理员相关
 ### 1.1 注册
 #### 接口地址
@@ -147,7 +146,6 @@ email   |String  |N          | -        |邮箱
 ```
     header:{'Cookie': 'JSESSIONID=' + token }
 ```
-
 
 
 ### 1.4 退出登录
