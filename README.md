@@ -355,7 +355,7 @@ domain/api/v1/admin/update-paper
 HTTP	POST
 #### 请求示例
 ```
-//页面中的数据来自viewPaper接口，若管理员选择更新，则删除原id的paper的问题，再为该id的paper插入questions的新题目
+//页面中的数据来自view-paper接口，若管理员选择更新，则删除原id的paper的问题，再为该id的paper插入questions的新题目
 {
    "id": "4askfj1093jfi9348oueir932",
    "title": "你幸福吗的调查",
@@ -434,13 +434,13 @@ id    |String|Y         | -         | 问卷id
  参数  |	类型	| 是否必须 |	取值范围	| 说明
  :---  |:---  |:---      |:---        |:---
  data  |int   |Y         | -          |0.操作成功，1.操作失败，2.paper的id非法（无此问卷)
-   
+
 
 
 ### 2.6 用户查看问卷（答卷页面）
 #### 接口地址
 ```
-domain/api/v1/user/viewPaper?paper_id=4askfj1093jfi9348oueir932
+domain/api/v1/user/viewPaper?paper-id=4askfj1093jfi9348oueir932
 ```
 #### 请求方式
 HTTP	GET
