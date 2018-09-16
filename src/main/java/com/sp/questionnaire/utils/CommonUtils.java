@@ -1,5 +1,6 @@
 package com.sp.questionnaire.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import sun.misc.BASE64Encoder;
 
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +20,7 @@ import java.util.UUID;
  * 2018-06-14 星期四 14:50
  */
 @Service
+@Slf4j
 public class CommonUtils {
     static MessageDigest md5 = null;
     static BASE64Encoder base64en = new BASE64Encoder();
@@ -27,6 +30,7 @@ public class CommonUtils {
             md5 = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            log.error("md5 init error", e);
         }
     }
 
@@ -41,10 +45,9 @@ public class CommonUtils {
     }
 
 
-    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    public String getFormatNow() {
-        return sdf.format(System.currentTimeMillis());
+    static SimpleDateFormat sdfFull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public String getFormatDateTimeNow() {
+        return sdfFull.format(System.currentTimeMillis());
     }
 
     /**
@@ -52,16 +55,26 @@ public class CommonUtils {
      * @param timeStamp
      * @return
      */
-    public String getFormatTime(long timeStamp) {
-        return sdf.format(timeStamp);
+    public String getFormatDateTimeByTimeStamp(long timeStamp) {
+        return sdfFull.format(timeStamp);
+    }
+    static SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+    /**
+     *  <P>将年月日字符串转成Date </p>
+     *
+     *  @param dateString： 合乎规范的年月日字符串
+     *  @return Date
+     */
+    public Date getDateByDateString(String dateString) throws ParseException {
+        return sdfDate.parse(dateString);
     }
 
     /**
-     * 获取UUID
+     * 生成随机的UUID
      * @return
      */
     public String getUUID() {
-        return UUID.randomUUID().toString().replace("-", "").toLowerCase();
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     /**

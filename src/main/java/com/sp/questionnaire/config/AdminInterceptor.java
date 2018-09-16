@@ -1,5 +1,6 @@
 package com.sp.questionnaire.config;
 
+import jdk.nashorn.internal.parser.Token;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,21 +36,37 @@ public class AdminInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) throws Exception {
-        // TODO Auto-generated method stub
+
+/*
+
+        response.setHeader("Access-Control-Allow-Origin","*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Max-Age", "36000");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+
+*/
+        System.out.println("pre: " + request.getSession().getId());
+
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        //response.setHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Allow-Headers"));
+        response.setHeader("Access-Control-Allow-Headers", "Accept, Origin, XRequestedWith, Content-Type, LastModified");
+
         //controller方法调用之前
-        System.out.println("admin preHandler");
         String url = request.getRequestURI();
+        System.out.println("admin preHandler: " + url);
+
 
         if (url.indexOf("admin") >= 0) {
             //登录成功后将uesr信息存入session，以验证是否登录
-            if(request.getSession().getAttribute("user") != null){
+            if(request.getSession().getAttribute("admin") != null){
                 return true;
             }else{
                 //TODO
                 //System.out.println(request.getServletPath());
                 //System.out.println(request.getLocalAddr() + request.getContextPath() + "/test");
-                request.getRequestDispatcher("/test").forward(request,response);
-                return false;
+                //request.getRequestDispatcher("/test").forward(request,response);
+                throw new IllegalAccessException("token is expired or not login");
             }
         }else{
             return true;
@@ -57,3 +74,4 @@ public class AdminInterceptor implements HandlerInterceptor {
     }
 
 }
+

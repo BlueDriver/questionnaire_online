@@ -1,7 +1,5 @@
 package com.sp.questionnaire.dao;
 
-
-
 import com.sp.questionnaire.entity.User;
 
 import java.util.List;
@@ -45,4 +43,14 @@ public interface UserDao {
      * @return
      */
     int deleteUser(String id);
+
+    /**
+     * 根据email查询User，返回User
+     * @param email
+     * @return
+     */
+    User queryUserByEmail(String email);
+
+    User queryUserByRandomCode(String code);
+
 }

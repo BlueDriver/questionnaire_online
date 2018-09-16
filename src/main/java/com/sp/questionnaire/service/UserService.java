@@ -44,4 +44,14 @@ public interface UserService {
      * @return
      */
     boolean deleteUser(String id);
+
+
+    /**
+     * 根据email查询User对象
+     * @param email
+     * @return
+     */
+    User queryUserByEmail(String email);
+
+    User queryUserByRandomCode(String code);
 }

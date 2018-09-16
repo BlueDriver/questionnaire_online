@@ -184,7 +184,7 @@ HTTP	GET
 :---  |:---  |:---      |:---        |:---
 code  |int   |Y         | -          |请求状态码
 msg   |String|Y         | -          |消息提示
-data  |int   |N         | -          |结果：0.退出成功，1.退出失败
+data  |int   |N         | -          |结果：0.退出成功，1.失败（未登录或登录已超时）
 
 
 
@@ -507,7 +507,7 @@ domain/api/v1/user/commit-paper
 HTTP	POST
 #### 请求示例
 ```
-//页面中的数据来自viewPaper接口
+//页面中的数据来自view-paper接口
 {
    "id": "4askfj1093jfi9348oueir932",
    "answers": [

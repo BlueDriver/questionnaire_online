@@ -1,10 +1,13 @@
 package com.sp.questionnaire;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 
 /*
@@ -20,7 +23,6 @@ public class Hello {
         log.info("test url");
         return "Hello SpringBoot!";
     }
-
     @RequestMapping(value = "/test/admin", method = RequestMethod.GET)
     public String testAdmin(){
         return "Hello admin";
@@ -30,4 +32,5 @@ public class Hello {
     public String noLogin(){
         return "you haven't login!";
     }
+
 }

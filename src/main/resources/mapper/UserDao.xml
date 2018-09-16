@@ -42,4 +42,18 @@
         WHERE id = #{id}
     </delete>
 
+
+    <select id="queryUserByEmail" resultType="com.sp.questionnaire.entity.User">
+        SELECT id, username,password, email, create_time,last_login_time,status,random_code FROM user
+        WHERE
+        email=#{email}
+    </select>
+
+    <select id="queryUserByRandomCode" resultType="com.sp.questionnaire.entity.User">
+        SELECT id, username,password, email, create_time,last_login_time,status,random_code FROM user
+        WHERE
+        random_code=#{code}
+    </select>
+
+
 </mapper>
