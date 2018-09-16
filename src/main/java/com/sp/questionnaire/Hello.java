@@ -1,11 +1,14 @@
 package com.sp.questionnaire;
 
+import com.sp.questionnaire.config.session.MySessionContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -18,8 +21,12 @@ import java.util.ArrayList;
 @RestController
 @Slf4j
 public class Hello {
+
+
     @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String hello(){
+    public String hello(HttpServletRequest request){
+        //request.getSession().setAttribute("key","1234");
+        //System.out.println(request.getSession().getId());
         log.info("test url");
         return "Hello SpringBoot!";
     }

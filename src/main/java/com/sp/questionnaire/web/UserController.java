@@ -1,5 +1,6 @@
 package com.sp.questionnaire.web;
 
+import com.sp.questionnaire.config.session.MySessionContext;
 import com.sp.questionnaire.entity.User;
 import com.sp.questionnaire.service.UserService;
 import com.sp.questionnaire.utils.CommonUtils;
@@ -15,6 +16,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -35,6 +37,7 @@ public class UserController {
 
     @Autowired
     private MailUtils mailUtils;
+
 
     /**
      * <P>注册接口 </p>
@@ -137,8 +140,9 @@ public class UserController {
                 map.put("code", 0);
                 JSONObject json = new JSONObject();
                 if (user0.getStatus() == 1) {   //is activate
-                    //Cookie cookie = new Cookie("JSESSIONID", request.getSession().getId());
+                    //Cookie cookie = new Cookie("USERID", request.getSession().getId());
                     //response.addCookie(cookie);
+                    response.setHeader("token",request.getSession().getId());
                     map.put("msg", "ok");
                     json.put("result", 0);
                     json.put("token", request.getSession().getId());
@@ -168,9 +172,11 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/admin/logout")
     public Map<String, Object> logout(HttpServletRequest request) {
-        System.out.println("logout: " + request.getSession().getId());
+        System.out.println("logout: ");
+        HttpSession session = (HttpSession) request.getAttribute("session");
+        System.out.println(session.getId());
         Map<String, Object> map = new HashMap<>();
-        if (request.getSession().getAttribute("admin") != null) {
+        if (session.getAttribute("admin") != null) {
             request.removeAttribute("admin");
             map.put("code", 0);
             map.put("msg", "ok");
