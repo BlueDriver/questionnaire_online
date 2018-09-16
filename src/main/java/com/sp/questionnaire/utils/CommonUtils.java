@@ -69,6 +69,14 @@ public class CommonUtils {
         return sdfDate.parse(dateString);
     }
 
+    public String getDateStringByDate(Date date) throws ParseException {
+        return sdfDate.format(date);
+    }
+
+    public Long getLongByDate(Date date){
+        return sdfDate.getCalendar().getTimeInMillis();
+    }
+
     /**
      * 生成随机的UUID
      * @return

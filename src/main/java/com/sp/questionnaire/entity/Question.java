@@ -20,7 +20,7 @@ import java.util.Date;
 public class Question {
 
     private String id;//问题ID
-    private String papperId;//试卷ID，外键
+    private String paperId;//试卷ID，外键
     private Date createTime;// 问题创建时间
     private Integer questionType;//问题类型：1：单选题2：多选题3：简答题
     private String questionTitle;//问题标题

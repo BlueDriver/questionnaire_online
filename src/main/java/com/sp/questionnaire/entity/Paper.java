@@ -3,6 +3,8 @@ package com.sp.questionnaire.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**

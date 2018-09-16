@@ -50,4 +50,11 @@ public interface QuestionDao {
      * @return
      */
     public int deleteQuestion(String id);
+
+    /**
+     * 根据paperId删除question
+     * @param id
+     * @return
+     */
+    public int deleteQuestionsByPaperId(String id);
 }

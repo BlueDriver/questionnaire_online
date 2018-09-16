@@ -77,6 +77,7 @@ public class PaperServiceImpl implements PaperService{
     public boolean deletePaper(String id) {
         if (id !=null && !"".equals(id)){
             try{
+                //System.out.println(id);
                 int i = paperDao.deletePaper(id);
                 if (i ==1){
                     return true;

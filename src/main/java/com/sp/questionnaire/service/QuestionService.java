@@ -50,4 +50,11 @@ public interface QuestionService {
      * @return
      */
     public boolean deleteQuestion(String id);
+
+    /**
+     * 根据paperId删除question
+     * @param id
+     * @return
+     */
+    public boolean deleteQuestionsByPaperId(String id);
 }

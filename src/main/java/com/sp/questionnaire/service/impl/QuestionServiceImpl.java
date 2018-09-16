@@ -89,4 +89,23 @@ public class QuestionServiceImpl implements QuestionService{
             throw new RuntimeException("c:删除问题失败，问题id不能为空！");
         }
     }
+
+    @Transactional
+    @Override
+    public boolean deleteQuestionsByPaperId(String id) {
+        if (id != null && !"".equals(id)) {
+            try{
+                int i = questionDao.deleteQuestionsByPaperId(id);
+                if(i >= 1){
+                    return true;
+                }else {
+                    throw new RuntimeException("a:删除问题失败！" + id);
+                }
+            }catch (Exception e){
+                throw new RuntimeException("b:删除问题失败：" + e.getMessage());
+            }
+        }else {
+            throw new RuntimeException("c:删除问题失败，试卷id不能为空！");
+        }
+    }
 }

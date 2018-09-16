@@ -1,5 +1,6 @@
 package com.sp.questionnaire.dao;
 
+import com.sp.questionnaire.entity.Paper;
 import com.sp.questionnaire.entity.Student;
 import com.sp.questionnaire.utils.CommonUtils;
 import org.junit.Assert;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,9 +32,11 @@ public class StudentDaoTest {
     private CommonUtils commonUtils;
 
     @Test
-    public void aa() throws UnsupportedEncodingException {
+    public void aa() throws UnsupportedEncodingException, ParseException {
         System.out.println(commonUtils.getUUID());
         System.out.println(commonUtils.encodeByMd5("123"));
+        System.out.println(commonUtils.getDateStringByDate(new Date()));
+
     }
     @Test
     public void queryStudent() {

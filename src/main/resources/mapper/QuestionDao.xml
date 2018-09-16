@@ -6,7 +6,7 @@
 
     <select id="queryQuestion" resultType="com.sp.questionnaire.entity.Question">
         SELECT id,
-            papper_id,
+            paper_id,
             create_time,
             question_type,
             question_title,
@@ -17,19 +17,19 @@
 
     <select id="queryQusetionByPaperId" resultType="com.sp.questionnaire.entity.Question">
         SELECT id,
-            papper_id,
+            paper_id,
             create_time,
             question_type,
             question_title,
             question_option
         FROM question
         WHERE
-        papper_id=#{papperId}
+        paper_id=#{paperId}
     </select>
 
     <select id="queryQuestionById" resultType="com.sp.questionnaire.entity.Question">
         SELECT id,
-        papper_id,
+        paper_id,
         create_time,
         question_type,
         question_title,
@@ -43,19 +43,19 @@
             parameterType="com.sp.questionnaire.entity.Question" >
         INSERT INTO question(
             id,
-            papper_id,
+            paper_id,
             create_time,
             question_type,
             question_title,
             question_option)
         VALUES
-        (#{id}, #{papperId},#{createTime}, #{questionType}, #{questionTitle},#{questionOption})
+        (#{id}, #{paperId},#{createTime}, #{questionType}, #{questionTitle},#{questionOption})
     </insert>
 
     <update id="updateQuestion" parameterType="com.sp.questionnaire.entity.Question">
         UPDATE question
         <set>
-            <if test="papperId != null">papper_id = #{papperId},</if>
+            <if test="paperId != null">paper_id = #{paperId},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="questionType != null">question_type = #{questionType},</if>
             <if test="questionTitle != null">question_title = #{questionTitle},</if>
@@ -68,6 +68,12 @@
         DELETE FROM
         question
         WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteQuestionsByPaperId">
+        DELETE FROM
+        question
+        WHERE paper_id = #{paperId}
     </delete>
 
 </mapper>

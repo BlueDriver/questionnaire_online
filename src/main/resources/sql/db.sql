@@ -34,7 +34,7 @@ PRIMARY KEY (  `id` )
 #问题
 CREATE TABLE  `question` (
  `id` VARCHAR( 64 ) NOT NULL ,
- `papper_id` VARCHAR( 64 ) NOT NULL ,
+ `paper_id` VARCHAR( 64 ) NOT NULL ,
  `create_time` DATETIME NOT NULL ,
  `question_type` INT NOT NULL ,
  `question_title` VARCHAR( 128 ) NOT NULL ,
@@ -46,7 +46,7 @@ PRIMARY KEY (  `id` )
 #答题
 CREATE TABLE  `answer` (
  `id` VARCHAR( 64 ) NOT NULL ,
- `papper_id` VARCHAR( 64 ) NOT NULL ,
+ `paper_id` VARCHAR( 64 ) NOT NULL ,
  `question_id` VARCHAR( 64 ) NOT NULL ,
  `question_type` INT NOT NULL ,
  `create_time` DATETIME NOT NULL ,
