@@ -193,12 +193,14 @@ public class UserController {
     //不加ResponseBody表示该请求对应的是一个页面
     @RequestMapping(value = "/api/v1/activate/{code}", method = RequestMethod.GET)
     public String activate(@PathVariable("code") String code) {
-        //System.out.println(code);
+        System.out.println(code);
         if (code == null || code.length() < 10) {
             return "invalid";
         }
         User user0 = userService.queryUserByRandomCode(code);
+        System.out.println(user0);
         if (user0 != null) {
+
             if (user0.getStatus() == 0) {//user is not activate
                 user0.setStatus(1);
                 if (userService.updateUser(user0)) {
@@ -207,7 +209,7 @@ public class UserController {
                     return "fail";
                 }
             } else if (user0.getStatus() == 1) {    //user has activate
-                return "success";
+                return "already";
             } else {
                 return "invalid";
             }

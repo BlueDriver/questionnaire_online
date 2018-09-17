@@ -1,4 +1,51 @@
 # 在线问卷系统
+# 数据库名称：questionnaire
+字符集：UTF-8
+## user表
+字段         | 类型 | 长度 |Null| 默认 | 主键 | 唯一 | 说明
+:---        |:--- |:--- |:--- |:--- |:--- |:--- |:--- 
+id          |varchar|64| not  |     | Y    |   |用户ID
+username    |varchar|64| not  |     |     |   |用户昵称
+password    |varchar|64| not  |     |     |   |md5加密后的密码
+email       |varchar|64| not  |     |     | Y  |邮箱
+create_time |datetime| | not  |     |     |   |用户创建时间
+last_login_time|datetime| | null  |null   |     |   |用户最后登录时间
+status      |int| | not  | 0    |     |   |用户账号状态<br>0：未激活<br>1：已激活
+random_code |varchar|64| not  |     |     |Y   |随机码（用户激活邮箱）
+
+## paper表
+字段 | 类型 | 长度 |Null| 默认 | 主键 | 唯一 | 说明
+:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- 
+id   |varchar|64| not  |     | Y    |   |问卷ID
+user_id|varchar|64| not  |     |     |   |用户ID，外键
+title|varchar|64| not  |     |     |   |问卷标题
+create_time|datetime| | not  |     |     |   |问卷创建时间
+status|int| | not  | 0    |     |   |问卷状态<br>0：未发布<br>1：已发布<br>2：已结束
+start_time|datetime| | null  | null   |     |   |开始时间
+end_time|datetime| | null  | null  |     |   |截止时间
+
+## question表
+字段 | 类型 | 长度 |Null| 默认 | 主键 | 唯一 | 说明
+:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- 
+id   |varchar|64| not  |     | Y    |   |问题ID
+paper_id|varchar|64| not  |     |     |   |问卷ID，外键
+create_time|datetime| | not  |     |     |   |问题创建时间
+question_type|int| | not  |    |     |   |问题类型<br>1：单选<br>2：多选<br>3：简答
+question_title|varchar|128| not  |     |     |   |问题标题
+question_option|varchar|512| not  |     |     |   |问题选项<br>1：选择题，数组字符串<br>[option1,option2,option3...]<br>2：简答题，空数组字符串<br>[]
+
+## answer表
+字段 | 类型 | 长度 |Null| 默认 | 主键 | 唯一 | 说明
+:--- |:--- |:--- |:--- |:--- |:--- |:--- |:--- 
+id   |varchar|64| not  |     | Y    |   |答案ID
+paper_id|varchar|64| not  |     |     |   |问卷ID，外键
+question_id|varchar|64| not  |     |     |   |问题ID，外键
+question_type|int| | not  |    |     |   |问题类型<br>1：单选<br>2：多选<br>3：简答
+create_time|datetime| | not  |     |     |   |答题时间
+answer_option|varchar|512| not  |     |     |   |答题选项<br>1：选择题，来自question表的问题选项，单选题只有一个option，多选至少一个<br>[option1,option2,option3...]<br>2：简答题，至多一个元素的数组字符串<br>["只能有一个元素"]<br>若未达，则无元素<br>[]
+
+
+
 # API 
 
 编码方式均为UTF-8
@@ -270,7 +317,7 @@ id    |String|Y         | -         | 问卷id
    "questions": [
       {"id": "1234", "questionType":1, "questionTitle": "你的收入是多少？", "questionOption": ["2000以下", "2000-5000", "5000+"]},
       {"id": "2234", "questionType":2, "questionTitle": "你家里有哪些家电？", "questionOption": ["冰箱", "洗衣机", "空调", "麻将机"]},
-      {"id": "3234", "questionType":3, "questionTitle": "说一说你觉得最幸福的事", "questionOption": ""}
+      {"id": "3234", "questionType":3, "questionTitle": "说一说你觉得最幸福的事", "questionOption": []}
     ]
    }
 }
@@ -292,7 +339,7 @@ questions  |Array |Y         | -          |问题列表
 id    |String|Y         | -          |问题ID
 questionType  |int   |Y      | -     |问题类型：1.单选题，2.多选题，3.简答题
 questionTitle |String|Y      | -     |问题标题
-questionOption|Array |Y      | -     |问题选项，选择题是Array，简答题为空字符串
+questionOption|Array |Y      | -     |问题选项：简答题为空的Array
 
 
 ### 2.3 新增问卷
@@ -312,7 +359,7 @@ HTTP	POST
   "questions": [
       {"questionType":1, "questionTitle": "你的收入是多少？", "questionOption": ["2000以下", "2000-5000", "5000+"]},
       {"questionType":2, "questionTitle": "你家里有哪些家电？", "questionOption": ["冰箱", "洗衣机", "空调", "麻将机"]},
-      {"questionType":3, "questionTitle": "说一说你觉得最幸福的事", "questionOption": ""}
+      {"questionType":3, "questionTitle": "说一说你觉得最幸福的事", "questionOption": []}
   ]
 }
 ```
@@ -329,7 +376,7 @@ status      |int   |Y| 0或1     | 问卷状态，0：不发布仅保存；1：�
 :---  |:---|:---|:---|:---
 questionType  |int   |Y      | -           |问题类型：1.单选题，2.多选题，3.简答题
 questionTitle |String|Y      | 1-128字符   |问题标题
-questionOption|Array |Y      | -     |问题选项，选择题是Array，简答题为空字符串
+questionOption|Array |Y      | -     |问题选项， 是选择题则至少有两个元素，简答题无元素
 
 #### 返回参数
 返回示例
@@ -365,7 +412,7 @@ HTTP	POST
    "questions": [
       {"questionType":1, "questionTitle": "你的收入是多少？", "questionOption": ["2000以下", "2000-5000", "5000+"]},
       {"questionType":2, "questionTitle": "你家里有哪些家电？", "questionOption": ["冰箱", "洗衣机", "空调", "麻将机"]},
-      {"questionType":3, "questionTitle": "说一说你觉得最幸福的事", "questionOption": ""}
+      {"questionType":3, "questionTitle": "说一说你觉得最幸福的事", "questionOption": []}
     ]
    }
 }
@@ -386,7 +433,7 @@ questions  |Array |Y         | -          |问题列表
 :---  |:---|:---|:---|:---
 questionType  |int   |Y      | -     |问题类型：1.单选题，2.多选题，3.简答题
 questionTitle |String|Y      | -     |问题标题
-questionOption|Array |Y      | -     |问题选项，选择题是Array，简答题为空字符串
+questionOption|Array |Y      | -     |问题选项， 是选择题则至少有两个元素，简答题无元素
 
 #### 返回参数
 返回示例
@@ -440,7 +487,7 @@ id    |String|Y         | -         | 问卷id
 ### 2.6 用户查看问卷（答卷页面）
 #### 接口地址
 ```
-domain/api/v1/user/viewPaper?paper-id=4askfj1093jfi9348oueir932
+domain/api/v1/user/view-paper?id=4askfj1093jfi9348oueir932
 ```
 #### 请求方式
 HTTP	GET
@@ -467,7 +514,7 @@ id    |String|Y         | -         | 问卷id
    "questions": [
       {"id": "1234", "questionType":1, "questionTitle": "你的收入是多少？", "questionOption": ["2000以下", "2000-5000", "5000+"]},
       {"id": "2234", "questionType":2, "questionTitle": "你家里有哪些家电？", "questionOption": ["冰箱", "洗衣机", "空调", "麻将机"]},
-      {"id": "3234", "questionType":3, "questionTitle": "说一说你觉得最幸福的事", "questionOption": ""}
+      {"id": "3234", "questionType":3, "questionTitle": "说一说你觉得最幸福的事", "questionOption": []}
     ]
    }
 }
@@ -489,7 +536,7 @@ questions  |Array |N         | -          |问题列表
 id    |String|Y         | -          |问题ID
 questionType  |int   |Y      | -     |问题类型：1.单选题，2.多选题，3.简答题
 questionTitle |String|Y      | -     |问题标题
-questionOption|Array |Y      | -     |问题选项，选择题是Array，简答题为空字符串
+questionOption|Array |Y      | -     |问题选项， 是选择题则至少有两个元素，简答题无元素
 
 > #### 补充说明
 1. status为必须参数
@@ -513,7 +560,7 @@ HTTP	POST
    "answers": [
       {"id": "1234", "questionType":1,  "answerContent": ["2000-5000"]},  //单选题，Array中仅一个元素
       {"id": "2234", "questionType":2,  "answerContent": ["空调", "麻将机"]},  //多选，Array中至少一个元素
-      {"id": "3234", "questionType":3,  "answerContent": "上了王者"}  //简答
+      {"id": "3234", "questionType":3,  "answerContent": ["上了王者"]}  //简答
     ]
    }
 }
@@ -529,7 +576,7 @@ answers  |Array |Y         | -       |答案列表
 :---           |:---  |:---     |:---          |:---
 id             |String|Y         | -          |问题id
 questionType   |int   |Y         | -          |问题类型：1.单选，2.多选，3.简答
-answerContent  |-     |Y         | 0-512字符  |答案内容，选择题为Array，简答题为String
+answerContent  |-     |Y         | 0-512字符  |答题选项， 是选择题则至少有一个元素，简答题最多一个元素（不答则为无元素）
 
 #### 返回参数
 返回示例
@@ -599,7 +646,7 @@ answerContent  |-     |Y         | 0-512字符  |答案内容，选择题为Arra
        {   
             "id": "3234", "questionType":3, 
             "questionTitle": "说一说你觉得最幸福的事", 
-            "questionOption": "",
+            "questionOption": [],
             "answerList": [
                 "从青铜",
                 "到黄金",
@@ -609,11 +656,11 @@ answerContent  |-     |Y         | 0-512字符  |答案内容，选择题为Arra
        {   
            "id": "4234", "questionType":3, 
            "questionTitle": "说一说你觉得最难过的事", 
-           "questionOption": "",
+           "questionOption": [],
            "answerList": [
                "从王者",
                "到黄金",
-               "到青铜"          
+               "到青铜" 
            ]
        }
      ]
