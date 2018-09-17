@@ -193,7 +193,7 @@ public class UserController {
     //不加ResponseBody表示该请求对应的是一个页面
     @RequestMapping(value = "/api/v1/activate/{code}", method = RequestMethod.GET)
     public String activate(@PathVariable("code") String code) {
-        System.out.println(code);
+        //System.out.println(code);
         if (code == null || code.length() < 10) {
             return "invalid";
         }
