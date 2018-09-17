@@ -36,6 +36,7 @@ public class CommonUtils {
 
     /**
      * md5算法编码加密
+     *
      * @param sourceString: 需要被加密的文本
      * @return 加密后的文本
      * @throws UnsupportedEncodingException
@@ -46,39 +47,50 @@ public class CommonUtils {
 
 
     static SimpleDateFormat sdfFull = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     public String getFormatDateTimeNow() {
         return sdfFull.format(System.currentTimeMillis());
     }
 
     /**
      * 格式化时间戳
+     *
      * @param timeStamp
      * @return
      */
     public String getFormatDateTimeByTimeStamp(long timeStamp) {
         return sdfFull.format(timeStamp);
     }
+
     static SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
+
     /**
-     *  <P>将年月日字符串转成Date </p>
+     * <P>将年月日字符串转成Date </p>
      *
-     *  @param dateString： 合乎规范的年月日字符串
-     *  @return Date
+     * @param dateString： 合乎规范的年月日字符串
+     * @return Date
      */
-    public Date getDateByDateString(String dateString) throws ParseException {
-        return sdfDate.parse(dateString);
+    public Date getDateByDateString(String dateString) {
+        Date date;
+        try {
+            date = sdfDate.parse(dateString);
+        } catch (ParseException e) {
+            date = null;
+        }
+        return date;
     }
 
     public String getDateStringByDate(Date date) throws ParseException {
         return sdfDate.format(date);
     }
 
-    public Long getLongByDate(Date date){
+    public Long getLongByDate(Date date) {
         return sdfDate.getCalendar().getTimeInMillis();
     }
 
     /**
      * 生成随机的UUID
+     *
      * @return
      */
     public String getUUID() {
@@ -86,10 +98,10 @@ public class CommonUtils {
     }
 
     /**
-     *  <P>计算两个日期相隔天数 </p>
-     *  
-     *  @param before: 起始日期; then: 目标日期
-     *  @return 整数天
+     * <P>计算两个日期相隔天数 </p>
+     *
+     * @param before: 起始日期; then: 目标日期
+     * @return 整数天
      */
     public int getDifferenceDay(Date before, Date then) {
         Calendar last_c = Calendar.getInstance();
@@ -109,6 +121,7 @@ public class CommonUtils {
 
     /**
      * 获取request的IP地址
+     *
      * @param request
      * @return IP address
      */

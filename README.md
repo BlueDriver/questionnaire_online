@@ -20,7 +20,7 @@ id   |varchar|64| not  |     | Y    |   |问卷ID
 user_id|varchar|64| not  |     |     |   |用户ID，外键
 title|varchar|64| not  |     |     |   |问卷标题
 create_time|datetime| | not  |     |     |   |问卷创建时间
-status|int| | not  | 0    |     |   |问卷状态<br>0：未发布<br>1：已发布<br>2：已结束
+status|int| | not  | 0    |     |   |问卷状态<br>0：未发布<br>1：已发布<br>2：已结束<br>3：已删除
 start_time|datetime| | null  | null   |     |   |开始时间
 end_time|datetime| | null  | null  |     |   |截止时间
 
@@ -201,7 +201,9 @@ email   |String  |N          | -        |邮箱
 
 > header使用token示例
 ```
-    header:{'Cookie': 'JSESSIONID=' + token }
+    ...
+    headers: {'token': token }
+    ...
 ```
 
 
@@ -460,13 +462,13 @@ HTTP	POST
 #### 请求示例
 ```
 {
-  "id": "4askfj1093jfi9348oueir932"
+  "idList": ["4askfj1093jfi9348oueir932", "sfs6f465vfsdf65sf654s6sf"]
 }
 ```
 > #### 请求参数
 参数  |	类型	| 是否必须 |	取值范围	| 说明
 :---  |:---|:---|:---|:---
-id    |String|Y         | -         | 问卷id
+idList    |Array|Y         | -         | 问卷id列表，至少一个元素
 
 #### 返回参数
 返回示例
@@ -510,7 +512,7 @@ id    |String|Y         | -         | 问卷id
    "title": "你幸福吗的调查",   
    "createTime": 1536887397173,
    "startTime": "2018-09-12",
-   "endTime": "2018-10-01",   
+   "endTime": "2018-10-01",
    "questions": [
       {"id": "1234", "questionType":1, "questionTitle": "你的收入是多少？", "questionOption": ["2000以下", "2000-5000", "5000+"]},
       {"id": "2234", "questionType":2, "questionTitle": "你家里有哪些家电？", "questionOption": ["冰箱", "洗衣机", "空调", "麻将机"]},
@@ -635,19 +637,19 @@ answerContent  |-     |Y         | 0-512字符  |答题选项， 是选择题则
             "id": "1234", "questionType":1, 
             "questionTitle": "你的收入是多少？", 
             "questionOption": ["2000以下", "2000-5000", "5000+"],
-            "answerCount": [10, 30, 100]
+            "answerContent": [10, 30, 100]
        },
        {    
             "id": "2234", "questionType":2, 
             "questionTitle": "你家里有哪些家电？", 
             "questionOption": ["冰箱", "洗衣机", "空调", "麻将机"],
-            "answerCount": [30, 40, 80, 20]
+            "answerContent": [30, 40, 80, 20]
        },
        {   
             "id": "3234", "questionType":3, 
             "questionTitle": "说一说你觉得最幸福的事", 
             "questionOption": [],
-            "answerList": [
+            "answerContent": [
                 "从青铜",
                 "到黄金",
                 "到王者"              
@@ -657,9 +659,8 @@ answerContent  |-     |Y         | 0-512字符  |答题选项， 是选择题则
            "id": "4234", "questionType":3, 
            "questionTitle": "说一说你觉得最难过的事", 
            "questionOption": [],
-           "answerList": [
-               "从王者",
-               "到黄金",
+           "answerContent": [
+               "从王者",               
                "到青铜" 
            ]
        }
@@ -686,8 +687,8 @@ answerContent  |-     |Y         | 0-512字符  |答题选项， 是选择题则
  questionType  |int   |Y      | -     |问题类型：1.单选题，2.多选题，3.简答题
  questionTitle |String|Y      | -     |问题标题
  questionOption|Array |Y      | -     |问题选项，选择题是Array，简答题为空字符串
- answerCount   |Array |Y      | -     |选项被选次数，与questionOption成顺序对应关系
- answerList    |Array |Y      | -     |简答题答案列表
+ answerContent |Array |Y      | -     |答案内容，选择题中的元素为int，简答题为String
+
  
  
  

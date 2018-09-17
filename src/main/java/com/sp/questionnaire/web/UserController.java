@@ -1,6 +1,6 @@
 package com.sp.questionnaire.web;
 
-import com.sp.questionnaire.config.session.MySessionContext;
+
 import com.sp.questionnaire.entity.User;
 import com.sp.questionnaire.service.UserService;
 import com.sp.questionnaire.utils.CommonUtils;
@@ -13,7 +13,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
