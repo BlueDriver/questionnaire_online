@@ -26,8 +26,8 @@ import java.util.List;
  * Date:2018/9/13-14:59
  */
 @Service
-public class PaperServiceImpl implements PaperService{
-    private final static int dataPaperViewQuestionNum=100;
+public class PaperServiceImpl implements PaperService {
+    private final static int dataPaperViewQuestionNum = 100;
     @Autowired
     private PaperDao paperDao;
     @Autowired
@@ -55,18 +55,18 @@ public class PaperServiceImpl implements PaperService{
     @Transactional
     @Override
     public boolean insertPaper(Paper paper) {
-        if (paper !=null && !"".equals(paper.getId())){
-            try{
+        if (paper != null && !"".equals(paper.getId())) {
+            try {
                 int i = paperDao.insertPaper(paper);
-                if (i ==1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:删除试卷失败！" + paper);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:插入试卷失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:插入试卷失败，Paper的id不能为空！");
         }
     }
@@ -74,18 +74,18 @@ public class PaperServiceImpl implements PaperService{
     @Transactional
     @Override
     public boolean updatePaper(Paper paper) {
-        if (paper !=null && !"".equals(paper.getId())){
-            try{
+        if (paper != null && !"".equals(paper.getId())) {
+            try {
                 int i = paperDao.updatePaper(paper);
-                if (i ==1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:修改试卷失败！" + paper);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:修改试卷失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:修改试卷失败，Paper的id不能为空！");
         }
     }
@@ -93,19 +93,19 @@ public class PaperServiceImpl implements PaperService{
     @Transactional
     @Override
     public boolean deletePaper(String id) {
-        if (id !=null && !"".equals(id)){
-            try{
+        if (id != null && !"".equals(id)) {
+            try {
                 //System.out.println(id);
                 int i = paperDao.deletePaper(id);
-                if (i ==1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:删除试卷失败！" + id);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:删除试卷失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:删除试卷失败，Paper的id不能为空！");
         }
     }
@@ -118,28 +118,31 @@ public class PaperServiceImpl implements PaperService{
     @Transactional
     @Override
     public boolean deleteManyPaper(List<String> id) {
-        if (id==null||id.size()<=0){
+        if (id == null || id.size() <= 0) {
             throw new RuntimeException("c:删除试卷失败，Paper的id不能为空！");
         }
         //int t = id.size();
-        for (String i:id) {
+        for (String i : id) {
             Paper paper = queryPaperByID(i);
-            paper.setStatus(4);
+            paper.setStatus(3);
             updatePaper(paper);
         }
 
 
         return true;
     }
+
     //处理Paper的data
     @Transactional
     @Override
     public Object dataPaper(String id) throws ParseException {
         Paper paper = queryPaperByID(id);
+        //System.out.println(id);
         //根据id拿到paper对象
-        if(paper!=null){
+        if (paper != null) {
 
-            //System.out.println("paper"+paper);
+
+            //System.out.println("paper" + paper);
 
             //返回的数据类型dataPaperViewPaper，包括信息和questions和content
             DataPaperViewPaper dataPaperViewPaper = new DataPaperViewPaper();
@@ -148,16 +151,17 @@ public class PaperServiceImpl implements PaperService{
             List<DataPaperViewQuestion> questions = new ArrayList<>();
             //定义上面的List里面的对象数组，必须初始化
             DataPaperViewQuestion[] dataPaperViewQuestion = new DataPaperViewQuestion[dataPaperViewQuestionNum];
-            for (int i=0;i<dataPaperViewQuestionNum;i++){//初始化数组
+            for (int i = 0; i < dataPaperViewQuestionNum; i++) {//初始化数组
                 dataPaperViewQuestion[i] = new DataPaperViewQuestion();
             }
-            int num=0;//记录数组下标
+            int num = 0;//记录数组下标
 
             //System.out.println("paperid"+paper.getId());
             //根据paperId查询相关问题，list1是类型为1的问题组合，list2的问题类型为2，list3为3
-            List<Question> list1 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(),1);
-            List<Question> list2 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(),2);
-            List<Question> list3 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(),3);
+            List<Question> list1 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(), 1);
+            List<Question> list2 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(), 2);
+            List<Question> list3 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(), 3);
+
 
             //先把查询到的基本信息放入结果对象
             dataPaperViewPaper.setId(paper.getId())
@@ -166,14 +170,14 @@ public class PaperServiceImpl implements PaperService{
                     .setCreateTime(commonUtils.getLongByDate(paper.getCreateTime()))
                     .setStartTime(commonUtils.getDateStringByDate(paper.getStartTime()))
                     .setEndTime(commonUtils.getDateStringByDate(paper.getEndTime()))
-                    .setTotalCount(answerService.countAnswer(id,list1.get(0).getId()));//次数先放在这里
+                    .setTotalCount((list1.size() == 0) ? 0 : answerService.countAnswer(id, list1.get(0).getId()));//次数先放在这里
 
-            if (list1.size()>0) {//问题类型为1--单选题
+            if (list1.size() > 0) {//问题类型为1--单选题
                 for (Question question : list1) {//处理每一个问题
 
                     //System.out.println("questionOption============"+question.getQuestionOption().substring(1,question.getQuestionOption().length()-1));
                     //定义单选题的选项数组,中间数组
-                    String[] options = question.getQuestionOption().substring(1,question.getQuestionOption().length()-1).split(",");
+                    String[] options = question.getQuestionOption().substring(1, question.getQuestionOption().length() - 1).split(",");
                     //定义单选题的List对象，用来存QuestionOption。其实对应的就是结果数据下面的questions下的用来存QuestionOption
                     List<String> a = new ArrayList<>();
                     Collections.addAll(a, options);//数组添加到集合里面去
@@ -192,7 +196,7 @@ public class PaperServiceImpl implements PaperService{
                     for (Answer an : listAnswer) {//遍历答案,记录answerContent
                         //System.out.println(an.getAnswerContent());
                         for (int i = 0, n = ops.length; i < n; i++) {
-                            if (an.getAnswerContent().substring(1,an.getAnswerContent().length()-1).equals(ops[i])) {
+                            if (an.getAnswerContent().substring(1, an.getAnswerContent().length() - 1).equals(ops[i])) {
                                 //满足条件就累加答案统计数组
                                 ansContent[i]++;
                             }
@@ -200,7 +204,7 @@ public class PaperServiceImpl implements PaperService{
                     }
 
                     //把答案统计数组放入对应结果对象的Questions下的answerContent  的b中
-                    Collections.addAll(b,ansContent);
+                    Collections.addAll(b, ansContent);
 
                     //把单个question的信息放入question中,questions集合下对应的对象就是dataPaperViewQuestion
                     dataPaperViewQuestion[num].setId(question.getId())
@@ -229,17 +233,14 @@ public class PaperServiceImpl implements PaperService{
                 json.put("data1", dataPaperViewPaper);
                 System.out.println("json1:"+json);*/
                 //return dataPaperViewPaper;
-            }else {
-                return null;
             }
 
 
-
-            if (list2.size()>0) {//问题类型为2--多选题
+            if (list2.size() > 0) {//问题类型为2--多选题
 
                 for (Question q : list2) {
                     //定义多选题的选项数组,中间数组
-                    String[] options = q.getQuestionOption().substring(1,q.getQuestionOption().length()-1).split(",");
+                    String[] options = q.getQuestionOption().substring(1, q.getQuestionOption().length() - 1).split(",");
                     //定义多选题的List对象，用来存QuestionOption。其实对应的就是结果数据下面的questions下的用来存QuestionOption
                     List<String> a = new ArrayList<>();
                     Collections.addAll(a, options);
@@ -262,21 +263,21 @@ public class PaperServiceImpl implements PaperService{
 
                         //System.out.println(an.getAnswerContent());
                         //[java,qq,aa]
-                        String temp = an.getAnswerContent().substring(1,an.getAnswerContent().length()-1);//去括号java,qq,aa
+                        String temp = an.getAnswerContent().substring(1, an.getAnswerContent().length() - 1);//去括号java,qq,aa
 
                         //记录an.getAnswerContent()，每一个答案的每一个选项
                         String[] answerContents = temp.split(",");
                         //System.out.println(an.getAnswerContent());//[java,qq,aa]
                         for (int i = 0, n = ops.length; i < n; i++) {
-                            for (int j=0,m=answerContents.length;j<m;j++){
-                                if (answerContents[j].equals(ops[i])){
+                            for (int j = 0, m = answerContents.length; j < m; j++) {
+                                if (answerContents[j].equals(ops[i])) {
                                     ansContent[i]++;
                                 }
                             }
 
                         }
                     }
-                    Collections.addAll(b,ansContent);
+                    Collections.addAll(b, ansContent);
 
 
                     //一层一层加数据
@@ -301,15 +302,13 @@ public class PaperServiceImpl implements PaperService{
                     System.out.println("json1-2:"+json);*/
 
                 }
-               JSONObject json = new JSONObject();
+                JSONObject json = new JSONObject();
                 json.put("data2", dataPaperViewPaper);
-                System.out.println("json2:"+json);
+                System.out.println("json2:" + json);
                 //return dataPaperViewPaper;
-            }else {
-                return null;
             }
 
-            if (list3.size()>0) {//第三个类型的问题
+            if (list3.size() > 0) {//第三个类型的问题
 
                 for (Question questionThree : list3) {
 
@@ -325,10 +324,9 @@ public class PaperServiceImpl implements PaperService{
                     //获取所有的答案,把每个答案的结果放入答案集合中，答案集合对应的是answerContent  对应中间集合b
                     List<Answer> listAnswer = answerService.queryAnswerByQuestionId(questionThree.getId());
                     List<Object> b = new ArrayList<>();
-                    for (Answer a:listAnswer) {
-                        b.add(a.getAnswerContent().substring(1,a.getAnswerContent().length()-1));
+                    for (Answer a : listAnswer) {
+                        b.add(a.getAnswerContent().substring(1, a.getAnswerContent().length() - 1));
                     }
-
 
 
                     //数据层层加入
@@ -355,20 +353,19 @@ public class PaperServiceImpl implements PaperService{
                 }
                 JSONObject json = new JSONObject();
                 json.put("data3", dataPaperViewPaper);
-                System.out.println("json3:"+json);
+                System.out.println("json3:" + json);
 
-            }else {
-                return null;
             }
-            return dataPaperViewPaper;//最后返回对象
+
+
+            if (dataPaperViewPaper != null) {
+                return dataPaperViewPaper;//最后返回对象
+            } else return null;
 
 
         }
         return null;
     }
-
-
-
 
 
 }

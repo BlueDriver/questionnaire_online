@@ -16,8 +16,7 @@ import java.util.ArrayList;
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddPaperViewQuestion
-{
+public class AddPaperViewQuestion {
     private Integer questionType;
     private String questionTitle;
     private ArrayList<String> questionOption;

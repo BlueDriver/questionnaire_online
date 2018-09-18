@@ -55,7 +55,7 @@
     </select>
 
     <insert id="insertAnswer" keyProperty="id" keyColumn="id"
-            parameterType="com.sp.questionnaire.entity.Answer" >
+            parameterType="com.sp.questionnaire.entity.Answer">
         INSERT INTO answer(id,
         paper_id,
         question_id,

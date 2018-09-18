@@ -24,7 +24,7 @@ public class StudentController {
     private StudentService studentService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    private Map<String, Object> listStudent(HttpServletRequest request){
+    private Map<String, Object> listStudent(HttpServletRequest request) {
         System.out.println(request.getSession().getId());
         System.out.println(request.getRemoteAddr());
         Map<String, Object> map = new HashMap<>();
@@ -33,27 +33,28 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/getstudentbyid", method = RequestMethod.GET)
-    private Map<String, Object> getStudentById(String id){
+    private Map<String, Object> getStudentById(String id) {
         Map<String, Object> map = new HashMap<>();
         map.put("data", studentService.queryStudentByID(id));
         return map;
     }
 
     @RequestMapping(value = "/addstudent", method = RequestMethod.POST)
-    private Map<String, Object> listStudent(@RequestBody Student student){
+    private Map<String, Object> listStudent(@RequestBody Student student) {
         Map<String, Object> map = new HashMap<>();
         map.put("success", studentService.insertStudent(student));
         return map;
     }
+
     @RequestMapping(value = "/modifystudent", method = RequestMethod.POST)
-    private Map<String, Object> modifyStudent(@RequestBody Student student){
+    private Map<String, Object> modifyStudent(@RequestBody Student student) {
         Map<String, Object> map = new HashMap<>();
         map.put("success", studentService.updateStudent(student));
         return map;
     }
 
     @RequestMapping(value = "/deletestudent", method = RequestMethod.GET)
-    private Map<String, Object> deleteStudent(String id){
+    private Map<String, Object> deleteStudent(String id) {
         Map<String, Object> map = new HashMap<>();
         map.put("data", studentService.deleteStudent(id));
         return map;

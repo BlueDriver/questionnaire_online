@@ -12,7 +12,7 @@
             question_title,
             question_option
         FROM question
-        ORDER BY id DESC
+        ORDER BY create_time ASC
     </select>
 
     <select id="queryQusetionByPaperId" resultType="com.sp.questionnaire.entity.Question">
@@ -25,6 +25,7 @@
         FROM question
         WHERE
         paper_id=#{paperId}
+        ORDER BY create_time ASC
     </select>
 
     <select id="queryQuestionById" resultType="com.sp.questionnaire.entity.Question">
@@ -40,7 +41,7 @@
     </select>
 
     <insert id="insertQuestion" keyProperty="id" keyColumn="id"
-            parameterType="com.sp.questionnaire.entity.Question" >
+            parameterType="com.sp.questionnaire.entity.Question">
         INSERT INTO question(
             id,
             paper_id,
@@ -77,7 +78,6 @@
     </delete>
 
 
-
     <select id="getQuestionsByPaperIdAndQuestionType" resultType="com.sp.questionnaire.entity.Question">
         SELECT id,
             paper_id,
@@ -88,6 +88,7 @@
             FROM question
         WHERE
         paper_id = #{id} AND question_type = #{questionType}
+         ORDER BY create_time ASC
     </select>
 
 </mapper>

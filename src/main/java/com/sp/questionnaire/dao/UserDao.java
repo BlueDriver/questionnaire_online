@@ -12,12 +12,14 @@ import java.util.List;
 public interface UserDao {
     /**
      * 查询所有User，返回List<User>
+     *
      * @return
      */
     List<User> queryUser();
 
     /**
      * 根据id查询User，返回User
+     *
      * @param id
      * @return
      */
@@ -25,6 +27,7 @@ public interface UserDao {
 
     /**
      * 插入一个User对象到数据库中
+     *
      * @param user
      * @return
      */
@@ -32,6 +35,7 @@ public interface UserDao {
 
     /**
      * 更新user，根据id更新
+     *
      * @param user
      * @return
      */
@@ -39,6 +43,7 @@ public interface UserDao {
 
     /**
      * 根据id删除User对象
+     *
      * @param id
      * @return
      */
@@ -46,6 +51,7 @@ public interface UserDao {
 
     /**
      * 根据email查询User，返回User
+     *
      * @param email
      * @return
      */

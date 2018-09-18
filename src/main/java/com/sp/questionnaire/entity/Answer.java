@@ -25,7 +25,7 @@ public class Answer {
     private Integer questionType;//问题类型：1：单选题2：多选题3：简答题
     private Date createTime;//答题时间
     private String answerContent;//问题的答案：
-                                  // 1.选择题：答案来自question表的question_option，[option1,option2,option3...]
-                                  // 2.简答题：用户填写的文本
+    // 1.选择题：答案来自question表的question_option，[option1,option2,option3...]
+    // 2.简答题：用户填写的文本
 
 }

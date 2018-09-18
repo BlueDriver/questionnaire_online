@@ -15,9 +15,10 @@ import java.util.List;
  * Date:2018/9/13-16:19
  */
 @Service
-public class QuestionServiceImpl implements QuestionService{
+public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionDao questionDao;
+
     @Override
     public List<Question> queryQuestion() {
         return questionDao.queryQuestion();
@@ -37,17 +38,17 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public boolean insertQuestion(Question question) {
         if (question != null && !"".equals(question.getId())) {
-            try{
+            try {
                 int i = questionDao.insertQuestion(question);
-                if(i == 1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:插入问题失败！" + question);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:插入问题失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:插入问题失败，问题id不能为空！");
         }
     }
@@ -56,17 +57,17 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public boolean updateQuestion(Question question) {
         if (question != null && !"".equals(question.getId())) {
-            try{
+            try {
                 int i = questionDao.updateQuestion(question);
-                if(i == 1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:更新问题失败！" + question);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:更新问题失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:更新问题失败，问题id不能为空！");
         }
     }
@@ -75,17 +76,17 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public boolean deleteQuestion(String id) {
         if (id != null && !"".equals(id)) {
-            try{
+            try {
                 int i = questionDao.deleteQuestion(id);
-                if(i == 1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:删除问题失败！" + id);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:删除问题失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:删除问题失败，问题id不能为空！");
         }
     }
@@ -94,17 +95,17 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public boolean deleteQuestionsByPaperId(String id) {
         if (id != null && !"".equals(id)) {
-            try{
+            try {
                 int i = questionDao.deleteQuestionsByPaperId(id);
-                if(i >= 1){
+                if (i >= 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:删除问题失败！" + id);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:删除问题失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:删除问题失败，试卷id不能为空！");
         }
     }
@@ -112,10 +113,10 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public List<Question> getQuestionsByPaperIdAndQuestionType(String id, Integer questionType) {
 
-        if (id!=null&&!"".equals(id)&&(questionType==1||questionType==2||questionType==3)){
-            System.out.println("id:"+id+"questionType"+questionType);
-            return questionDao.getQuestionsByPaperIdAndQuestionType(id,questionType);
+        if (id != null && !"".equals(id) && (questionType == 1 || questionType == 2 || questionType == 3)) {
+            //System.out.println("id:" + id + "questionType" + questionType);
+            return questionDao.getQuestionsByPaperIdAndQuestionType(id, questionType);
         }
-       throw new RuntimeException("a:根据PaperId和问题类型获取问题失败！" +"ID:"+ id+"   questionType:"+questionType);
+        throw new RuntimeException("a:根据PaperId和问题类型获取问题失败！" + "ID:" + id + "   questionType:" + questionType);
     }
 }

@@ -85,7 +85,7 @@ public class CommonUtils {
     }
 
     public Long getLongByDate(Date date) {
-        if (date==null)return null;
+        if (date == null) return null;
         return date.getTime();
     }
 

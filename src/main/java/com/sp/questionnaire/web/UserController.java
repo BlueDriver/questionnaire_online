@@ -141,7 +141,7 @@ public class UserController {
                 if (user0.getStatus() == 1) {   //is activate
                     //Cookie cookie = new Cookie("USERID", request.getSession().getId());
                     //response.addCookie(cookie);
-                    response.setHeader("token",request.getSession().getId());
+                    response.setHeader("token", request.getSession().getId());
                     map.put("msg", "ok");
                     json.put("result", 0);
                     json.put("token", request.getSession().getId());

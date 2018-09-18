@@ -24,11 +24,11 @@ public class User {
     private String id;//用户ID
 
     @NotNull(message = "昵称不能为空")
-    @Size(min = 2, max=64,message = "昵称长度必须在2-64个字符")
+    @Size(min = 2, max = 64, message = "昵称长度必须在2-64个字符")
     private String username;//用户名（昵称）
 
     @NotNull(message = "密码不能为空")
-    @Size(min = 6, max=64, message = "密码合理长度为必须6-64个字符")
+    @Size(min = 6, max = 64, message = "密码合理长度为必须6-64个字符")
     private String password;//MD5加密后的密码
 
     @Email(message = "邮箱必须合法")

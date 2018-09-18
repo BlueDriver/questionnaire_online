@@ -12,8 +12,12 @@ import java.util.List;
 
 public interface StudentDao {
     List<Student> queryStudent();
+
     Student queryStudentByID(String id);
+
     int insertStudent(Student student);
+
     int updateStudent(Student student);
+
     int deleteStudent(String id);
 }

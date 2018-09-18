@@ -15,9 +15,10 @@ import java.util.List;
  * Date:2018/9/13-18:31
  */
 @Service
-public class AnswerServiceImpl implements AnswerService{
+public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private AnswerDao answerDao;
+
     @Override
     public List<Answer> queryAnswer() {
         return answerDao.queryAnswer();
@@ -41,18 +42,18 @@ public class AnswerServiceImpl implements AnswerService{
     @Transactional
     @Override
     public boolean insertAnswer(Answer answer) {
-        if (answer !=null && !"".equals(answer.getId())){
-            try{
+        if (answer != null && !"".equals(answer.getId())) {
+            try {
                 int i = answerDao.insertAnswer(answer);
-                if (i ==1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:插入答案失败！" + answer);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:插入答案失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:插入答案失败，Answer的id不能为空！");
         }
     }
@@ -60,18 +61,18 @@ public class AnswerServiceImpl implements AnswerService{
     @Transactional
     @Override
     public boolean updateAnswer(Answer answer) {
-        if (answer !=null && !"".equals(answer.getId())){
-            try{
+        if (answer != null && !"".equals(answer.getId())) {
+            try {
                 int i = answerDao.updateAnswer(answer);
-                if (i ==1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:更新答案失败！" + answer);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:更新答案失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:更新答案失败，Answer的id不能为空！");
         }
     }
@@ -79,27 +80,27 @@ public class AnswerServiceImpl implements AnswerService{
     @Transactional
     @Override
     public boolean deleteAnswer(String id) {
-        if (id !=null && !"".equals(id)){
-            try{
+        if (id != null && !"".equals(id)) {
+            try {
                 int i = answerDao.deleteAnswer(id);
-                if (i ==1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("a:删除答案失败！" + id);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b:删除答案失败：" + e.getMessage());
             }
-        }else {
+        } else {
             throw new RuntimeException("c:删除答案失败，Answer的id不能为空！");
         }
     }
 
     @Override
     public int countAnswer(String paperId, String questionId) {
-        if (paperId!=null&&!"".equals(paperId)&&questionId!=null&&!"".equals(questionId))
-        return answerDao.countAnswer(paperId,questionId);
-         return 0;
+        if (paperId != null && !"".equals(paperId) && questionId != null && !"".equals(questionId))
+            return answerDao.countAnswer(paperId, questionId);
+        return 0;
     }
 
 }

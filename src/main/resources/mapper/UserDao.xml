@@ -16,7 +16,7 @@
     </select>
 
     <insert id="insertUser" keyProperty="id" keyColumn="id"
-            parameterType="com.sp.questionnaire.entity.User" >
+            parameterType="com.sp.questionnaire.entity.User">
         INSERT INTO user(id, username,password, email, create_time,last_login_time,status,random_code)
         VALUES
         (#{id}, #{username},#{password}, #{email}, #{createTime},#{lastLoginTime},#{status},#{randomCode})

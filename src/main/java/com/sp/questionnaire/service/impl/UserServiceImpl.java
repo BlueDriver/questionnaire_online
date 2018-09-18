@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public User queryUserByEmail(String email) {
         if (email != null && !"".equals(email)) {
             return userDao.queryUserByEmail(email);
-        }else{
+        } else {
             return null;
         }
     }

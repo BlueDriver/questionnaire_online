@@ -13,12 +13,14 @@ import java.util.List;
 public interface UserService {
     /**
      * 查询所有User，返回List<User>
+     *
      * @return
      */
     List<User> queryUser();
 
     /**
      * 根据id查询User，返回User
+     *
      * @param id
      * @return
      */
@@ -26,6 +28,7 @@ public interface UserService {
 
     /**
      * 插入一个User对象到数据库中
+     *
      * @param user
      * @return
      */
@@ -33,6 +36,7 @@ public interface UserService {
 
     /**
      * 更新user，根据id更新
+     *
      * @param user
      * @return
      */
@@ -40,6 +44,7 @@ public interface UserService {
 
     /**
      * 根据id删除User对象
+     *
      * @param id
      * @return
      */
@@ -48,6 +53,7 @@ public interface UserService {
 
     /**
      * 根据email查询User对象
+     *
      * @param email
      * @return
      */

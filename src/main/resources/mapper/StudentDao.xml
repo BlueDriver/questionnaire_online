@@ -16,12 +16,12 @@
     </select>
 
     <insert id="insertStudent" keyProperty="stdNumber" keyColumn="std_number"
-            parameterType="com.sp.questionnaire.entity.Student" >
+            parameterType="com.sp.questionnaire.entity.Student">
         INSERT INTO student(std_number, name, age, birth)
         VALUES
         (#{stdNumber}, #{name}, #{age}, #{birth})
     </insert>
-    
+
     <update id="updateStudent" parameterType="com.sp.questionnaire.entity.Student">
         UPDATE student
         <set>

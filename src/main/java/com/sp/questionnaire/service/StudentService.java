@@ -1,7 +1,6 @@
 package com.sp.questionnaire.service;
 
 
-
 import com.sp.questionnaire.entity.Student;
 
 import java.util.List;
@@ -13,8 +12,12 @@ import java.util.List;
  */
 public interface StudentService {
     List<Student> queryStudent();
+
     Student queryStudentByID(String id);
+
     boolean insertStudent(Student student);
+
     boolean updateStudent(Student student);
+
     boolean deleteStudent(String id);
 }

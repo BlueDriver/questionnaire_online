@@ -12,12 +12,14 @@ import java.util.List;
 public interface QuestionService {
     /**
      * 查询所有的Question,返回List<Question>
+     *
      * @return
      */
     public List<Question> queryQuestion();
 
     /**
      * 根据试卷的ID查询该试卷所有的Question
+     *
      * @param paperId
      * @return
      */
@@ -25,6 +27,7 @@ public interface QuestionService {
 
     /**
      * 根据id查询Question
+     *
      * @param id
      * @return
      */
@@ -32,6 +35,7 @@ public interface QuestionService {
 
     /**
      * 插入一个Question
+     *
      * @param question
      * @return
      */
@@ -39,6 +43,7 @@ public interface QuestionService {
 
     /**
      * 根据id更新该Question
+     *
      * @param question
      * @return
      */
@@ -46,6 +51,7 @@ public interface QuestionService {
 
     /**
      * 根据id删除该Question
+     *
      * @param id
      * @return
      */
@@ -53,6 +59,7 @@ public interface QuestionService {
 
     /**
      * 根据paperId删除question
+     *
      * @param id
      * @return
      */
@@ -60,8 +67,9 @@ public interface QuestionService {
 
     /**
      * 根据paperId和问题的类型获取questions
+     *
      * @param id
      * @return
      */
-    public List<Question> getQuestionsByPaperIdAndQuestionType(String id,Integer questionType);
+    public List<Question> getQuestionsByPaperIdAndQuestionType(String id, Integer questionType);
 }

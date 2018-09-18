@@ -39,17 +39,17 @@ public class StudentServiceImpl implements StudentService {
     public boolean insertStudent(Student student) {
         if (student != null && !"".equals(student.getStdNumber())) {
             student.setBirth(new Date());
-            try{
+            try {
                 int i = studentDao.insertStudent(student);
-                if(i == 1){
+                if (i == 1) {
                     return true;
-                }else {
+                } else {
                     throw new RuntimeException("插入失败！" + student);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("插入失败：" + e.getMessage());
             }
-        }else{
+        } else {
             throw new RuntimeException("学号不能为空！");
         }
     }
@@ -58,17 +58,17 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean updateStudent(Student student) {
         if (student != null && !"".equals(student.getStdNumber())) {
-            try{
+            try {
                 int i = studentDao.updateStudent(student);
                 if (i == 1) {
                     return true;
-                }else{
+                } else {
                     throw new RuntimeException("修改失败！" + student);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("修改失败：" + e.getMessage());
             }
-        }else{
+        } else {
             throw new RuntimeException("修改失败，学号不能为空！");
         }
     }
@@ -77,18 +77,18 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public boolean deleteStudent(String id) {
         if (id != null && !"".equals(id)) {
-            try{
+            try {
                 int i = studentDao.deleteStudent(id);
                 //System.out.println(i);
                 if (i == 1) {
                     return true;
-                }else{
+                } else {
                     throw new RuntimeException("a删除失败！" + id);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("b删除失败：" + e.getMessage());
             }
-        }else{
+        } else {
             throw new RuntimeException("c删除失败，学号不能为空！");
         }
     }

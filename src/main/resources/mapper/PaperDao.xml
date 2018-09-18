@@ -14,6 +14,8 @@
             start_time,
             end_time
         FROM paper
+         WHERE
+        status in (0,1,2)
         ORDER BY id DESC
     </select>
 
@@ -28,7 +30,7 @@
             end_time
         FROM paper
         WHERE
-        user_id=#{userId}
+        user_id=#{userId} AND status in (0,1,2)
     </select>
 
     <select id="queryPaperByID" resultType="com.sp.questionnaire.entity.Paper">
@@ -42,7 +44,7 @@
         end_time
         FROM paper
         WHERE
-        id=#{id}
+        id=#{id} and status in (0,1,2)
     </select>
 
     <insert id="insertPaper" keyProperty="id" keyColumn="id"
@@ -89,7 +91,7 @@
         end_time
         FROM paper
         WHERE
-        title LIKE "%"#{title}"%"
+        title LIKE "%"#{title}"%" AND  in (0,1,2)
     </select>
 
 </mapper>
