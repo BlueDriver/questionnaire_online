@@ -2,6 +2,7 @@ package com.sp.questionnaire.service;
 
 import com.sp.questionnaire.entity.Paper;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -57,6 +58,17 @@ public interface PaperService {
      * @return
      */
     List<Paper> queryPaperByTitle(String title);
+
+
+    /**
+     * 根据id批量删除Paper对象
+     * @param id
+     * @return
+     */
+    boolean deleteManyPaper(List<String> id);
+
+    public Object dataPaper(String id) throws ParseException;
+
 
 
 }

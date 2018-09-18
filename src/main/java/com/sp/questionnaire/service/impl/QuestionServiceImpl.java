@@ -108,4 +108,14 @@ public class QuestionServiceImpl implements QuestionService{
             throw new RuntimeException("c:删除问题失败，试卷id不能为空！");
         }
     }
+
+    @Override
+    public List<Question> getQuestionsByPaperIdAndQuestionType(String id, Integer questionType) {
+
+        if (id!=null&&!"".equals(id)&&(questionType==1||questionType==2||questionType==3)){
+            System.out.println("id:"+id+"questionType"+questionType);
+            return questionDao.getQuestionsByPaperIdAndQuestionType(id,questionType);
+        }
+       throw new RuntimeException("a:根据PaperId和问题类型获取问题失败！" +"ID:"+ id+"   questionType:"+questionType);
+    }
 }

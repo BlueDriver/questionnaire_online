@@ -57,4 +57,11 @@ public interface AnswerService {
      * @return
      */
     public boolean deleteAnswer(String id);
+
+    /**
+     * 查询Answer被答次数,返回次数
+     * @param paperId,questionId
+     * @return
+     */
+    public int countAnswer(String paperId, String questionId);
 }

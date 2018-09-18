@@ -1,6 +1,8 @@
 package com.sp.questionnaire.dao;
 
 import com.sp.questionnaire.entity.Question;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -57,4 +59,11 @@ public interface QuestionDao {
      * @return
      */
     public int deleteQuestionsByPaperId(String id);
+
+    /**
+     * 根据paperId和问题的类型获取questions
+     * @param id, questionType
+     * @return
+     */
+    public List<Question> getQuestionsByPaperIdAndQuestionType(@Param("id") String id, @Param("questionType") Integer questionType);
 }

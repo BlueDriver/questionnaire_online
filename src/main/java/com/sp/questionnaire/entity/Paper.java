@@ -27,4 +27,5 @@ public class Paper {
     private Integer status;//状态值：0：未发布1：已发布2：已结束
     private Date startTime;//开始时间
     private Date endTime;//结束时间
+
 }

@@ -95,4 +95,11 @@ public class AnswerServiceImpl implements AnswerService{
         }
     }
 
+    @Override
+    public int countAnswer(String paperId, String questionId) {
+        if (paperId!=null&&!"".equals(paperId)&&questionId!=null&&!"".equals(questionId))
+        return answerDao.countAnswer(paperId,questionId);
+         return 0;
+    }
+
 }

@@ -84,4 +84,11 @@
         WHERE id = #{id}
     </delete>
 
+    <select id="countAnswer" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM answer
+        WHERE
+        paper_id=#{paperId} AND question_id=#{questionId}
+    </select>
+
 </mapper>

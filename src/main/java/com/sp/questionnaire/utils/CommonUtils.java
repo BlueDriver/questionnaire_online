@@ -85,7 +85,8 @@ public class CommonUtils {
     }
 
     public Long getLongByDate(Date date) {
-        return sdfDate.getCalendar().getTimeInMillis();
+        if (date==null)return null;
+        return date.getTime();
     }
 
     /**

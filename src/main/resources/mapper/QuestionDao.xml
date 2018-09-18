@@ -76,4 +76,18 @@
         WHERE paper_id = #{paperId}
     </delete>
 
+
+
+    <select id="getQuestionsByPaperIdAndQuestionType" resultType="com.sp.questionnaire.entity.Question">
+        SELECT id,
+            paper_id,
+            create_time,
+            question_type,
+            question_title,
+            question_option
+            FROM question
+        WHERE
+        paper_id = #{id} AND question_type = #{questionType}
+    </select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.sp.questionnaire.dao;
 
 import com.sp.questionnaire.entity.Answer;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -58,5 +59,12 @@ public interface AnswerDao {
      * @return
      */
     public int deleteAnswer(String id);
+
+    /**
+     * 查询Answer被答次数,返回次数
+     * @param paperId,questionId
+     * @return
+     */
+    public int countAnswer(@Param("paperId") String paperId, @Param("questionId") String questionId);
 
 }

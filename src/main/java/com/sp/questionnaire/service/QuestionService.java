@@ -57,4 +57,11 @@ public interface QuestionService {
      * @return
      */
     public boolean deleteQuestionsByPaperId(String id);
+
+    /**
+     * 根据paperId和问题的类型获取questions
+     * @param id
+     * @return
+     */
+    public List<Question> getQuestionsByPaperIdAndQuestionType(String id,Integer questionType);
 }

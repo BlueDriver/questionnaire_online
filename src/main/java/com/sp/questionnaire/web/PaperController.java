@@ -42,7 +42,7 @@ public class PaperController {
 
     //获取问卷列表
     @ResponseBody
-    @RequestMapping(value = "api/v1/admin/paper-lists", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/admin/paper-lists", method = RequestMethod.GET)
     public Map<String,Object> paperLists(HttpServletRequest request) throws ParseException {
         Map<String,Object> map = new HashMap<>();
 
@@ -124,12 +124,17 @@ public class PaperController {
 
     //增加问卷
     @ResponseBody
-    @RequestMapping(value = "/api/v1/admin/add-paper" ,method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/add-paper" ,method = RequestMethod.POST)
     public Map<String,Object> addPaper(HttpServletRequest request,@RequestBody AddPaperViewPaper paper ) throws ParseException {
         Map<String,Object> map = new HashMap<>();
 
+        User u = new User();
+        u.setId("1");
+        request.getSession().setAttribute("admin", u);
+        request.setAttribute("session", request.getSession());
 
         HttpSession session = (HttpSession) request.getAttribute("session");
+        System.out.println("paper:"+paper);
 
         String id = null;
         PaperMethodHelp paperMethodHelp = new PaperMethodHelp();
@@ -161,7 +166,7 @@ public class PaperController {
         addPaperViewPaper.setStatus(paper.getStatus());
 
 
-        //删除Paper
+
         if (paper.getId() == null) {
             map.put("code", 2);
             map.put("msg", "要删除试卷的id 不能为空");
@@ -189,29 +194,59 @@ public class PaperController {
     ///delete-paper
     @ResponseBody
     @RequestMapping(value = "api/v1/admin/delete-paper" ,method = RequestMethod.POST)
-    public Map<String,Object> deletePaper(HttpServletRequest request,@RequestBody String id){
+    public Map<String,Object> deletePaper(HttpServletRequest request,@RequestBody List<String> idList ){
+        JSONObject json = JSONObject.fromObject(idList);
+        List<String> listId = new ArrayList<>();
+        listId = json.getJSONArray("id");
+
+        Map<String, Object> map = new HashMap<>();
+        if (listId.size()<=0){
+            map.put("code", 2);
+            map.put("msg", "要删除试卷的id 不能为空");
+            return map;
+            //return map;
+        }else {
+            if (paperService.deleteManyPaper(listId)){
+                map.put("code", 0);
+                map.put("msg", "ok");
+                return map;
+            }else {
+                map.put("code", 1);
+                map.put("msg", "系统异常");
+                return map;
+            }
+        }
+    }
+
+    //查看问卷数据
+    @ResponseBody
+    @RequestMapping(value = "api/v1/paper-data" ,method = RequestMethod.POST)
+    public Map<String,Object> dataPaper(HttpServletRequest request,@RequestBody String id) throws ParseException {
         JSONObject json = JSONObject.fromObject(id);
         id = json.getString("id");
         Map<String, Object> map = new HashMap<>();
         if (id==null){
             map.put("code",2);
-            map.put("msg","要删除试卷的id 不能为空");
+            map.put("msg","要查看data试卷的id 不能为空");
             return map;
         }else {
-           if ( paperService.deletePaper(id)){//删除paper
-
-               if (questionService.deleteQuestionsByPaperId(id)) {
-                   map.put("code", 0);
-                   map.put("msg", "ok");
-                   map.put("data", 0);
-                   return map;
-               }
-           }
-            map.put("code",1);
-            map.put("msg","删除试卷失败 系统异常");
-            return map;
+                if (paperService.dataPaper(id)==null){
+                    map.put("code",2);
+                    map.put("msg","要查看data试卷的id 错误");
+                    return map;
+                }else{
+                    DataPaperViewPaper dataPaperViewPaper = (DataPaperViewPaper) paperService.dataPaper(id);
+                    map.put("code",0);
+                    map.put("msg","ok");
+                    map.put("data",dataPaperViewPaper);
+                    return map;
+                }
         }
+
+
         //return map;
+
+
     }
 
 

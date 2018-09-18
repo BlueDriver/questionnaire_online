@@ -6,6 +6,7 @@ import com.sp.questionnaire.entity.User;
 import com.sp.questionnaire.service.PaperService;
 import com.sp.questionnaire.service.QuestionService;
 import com.sp.questionnaire.utils.CommonUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -33,6 +34,7 @@ public class PaperMethodHelp {
             }
     }
 
+    @Transactional
     public Map<String,Object> insert(AddPaperViewPaper paper,HttpSession session,
                                      CommonUtils commonUtils, PaperService paperService,
                                      QuestionService questionService,String id) throws ParseException {
@@ -67,6 +69,9 @@ public class PaperMethodHelp {
                 question.setQuestionType(a.getQuestionType());
                 question.setQuestionTitle(a.getQuestionTitle());
                 question.setQuestionOption(a.getQuestionOption().toString());
+
+                System.out.println("options:"+question.getQuestionOption());
+
                 //把question存入数据库
                 questionService.insertQuestion(question);
             }
