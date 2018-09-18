@@ -2,35 +2,23 @@
 package com.sp.questionnaire.web;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.sp.questionnaire.entity.Answer;
 import com.sp.questionnaire.entity.Paper;
 import com.sp.questionnaire.entity.Question;
 import com.sp.questionnaire.entity.User;
 import com.sp.questionnaire.entity.view.*;
-import com.sp.questionnaire.service.AnswerService;
 import com.sp.questionnaire.service.PaperService;
 import com.sp.questionnaire.service.QuestionService;
 import com.sp.questionnaire.utils.CommonUtils;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectDeserializer;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.print.DocFlavor;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.*;
 
@@ -140,6 +128,7 @@ public class PaperController {
 
         HttpSession session = (HttpSession) request.getAttribute("session");
 
+        //no need id for add new paper
         String id = null;
         PaperMethodHelp paperMethodHelp = new PaperMethodHelp();
 
