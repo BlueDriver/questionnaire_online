@@ -244,7 +244,7 @@ data  |int   |N         | -          |结果：0.退出成功，1.失败（未�
 domain/api/v1/admin/paper-lists
 ```
 #### 请求方式
-HTTP	POST
+HTTP    GET
 #### 请求示例
 无
 > #### 请求参数
