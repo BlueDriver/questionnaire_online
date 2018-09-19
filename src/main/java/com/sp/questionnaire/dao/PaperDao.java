@@ -1,7 +1,6 @@
 package com.sp.questionnaire.dao;
 
 import com.sp.questionnaire.entity.Paper;
-import com.sp.questionnaire.entity.User;
 
 import java.util.List;
 

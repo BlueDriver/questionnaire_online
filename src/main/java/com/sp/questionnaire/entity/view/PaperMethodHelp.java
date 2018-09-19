@@ -5,7 +5,12 @@ import com.sp.questionnaire.entity.Question;
 import com.sp.questionnaire.entity.User;
 import com.sp.questionnaire.service.PaperService;
 import com.sp.questionnaire.service.QuestionService;
+import com.sp.questionnaire.service.impl.PaperServiceImpl;
+import com.sp.questionnaire.service.impl.QuestionServiceImpl;
 import com.sp.questionnaire.utils.CommonUtils;
+import net.sf.json.JSONArray;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpSession;
@@ -19,42 +24,49 @@ import java.util.Map;
  * Author:Xiaowanwan
  * Date:2018/9/16-20:05
  */
+@Service
 public class PaperMethodHelp {
-    public Map<String, Object> insertPaper(AddPaperViewPaper paper, HttpSession session,
-                                           CommonUtils commonUtils, PaperService paperService,
-                                           QuestionService questionService, String id) throws ParseException {
-        Map<java.lang.String, java.lang.Object> map = new HashMap<>();
+
+    @Autowired
+    private QuestionService questionService;
+    @Autowired
+    private PaperService paperService;
+
+    @Autowired
+    private CommonUtils commonUtils;
+
+    public Map<String, Object> insertPaper(AddPaperViewPaper paper, String userId, String id) throws ParseException {
 
         if (checkPaper(paper) == null) {
             //放入插入代码
             //id = null;
             //System.out.println(id);
-            return insert(paper, session, commonUtils, paperService, questionService, id);
+            return insert(paper, userId, id);
         } else {
             return checkPaper(paper);
         }
     }
 
     @Transactional
-    public Map<String, Object> insert(AddPaperViewPaper paper, HttpSession session,
-                                      CommonUtils commonUtils, PaperService paperService,
-                                      QuestionService questionService, String id) throws ParseException {
+    public Map<String, Object> insert(AddPaperViewPaper paper, String userId, String id) throws ParseException {
         Map<String, Object> map = new HashMap<>();
         //HttpSession session = (HttpSession) request.getAttribute("session");
         //System.out.println(id);
-        if (session.getAttribute("admin") != null) {
+        if (userId != null) {
             //通过检测，准备添加数据
             //System.out.println("准备添加数据");
             Question question = new Question();
             Paper paper1 = new Paper();
-            java.lang.String paper1Id = commonUtils.getUUID();
+            //String paper1Id = commonUtils.getUUID();
             if (id == null) {
-                paper1.setId(paper1Id);
+                paper1.setId(commonUtils.getUUID());
+                //System.err.println("id==null时：id"+paper1.getId());
             } else {
                 paper1.setId(id);
+                //System.err.println("id！=null时：id"+paper1.getId());
             }
-            User user = (User) session.getAttribute("admin");
-            paper1.setUserId(user.getId());
+
+            paper1.setUserId(userId);
             paper1.setCreateTime(new Date());
             paper1.setStartTime(commonUtils.getDateByDateString(paper.getStartTime()));
             paper1.setEndTime(commonUtils.getDateByDateString(paper.getEndTime()));
@@ -63,6 +75,7 @@ public class PaperMethodHelp {
             //吧paper1存入数据库
             paperService.insertPaper(paper1);
 
+
             //paper添加完成，接下来添加Questions
             for (AddPaperViewQuestion a : paper.getQuestions()) {
                 question.setId(commonUtils.getUUID());
@@ -70,9 +83,9 @@ public class PaperMethodHelp {
                 question.setCreateTime(new Date());
                 question.setQuestionType(a.getQuestionType());
                 question.setQuestionTitle(a.getQuestionTitle());
-                question.setQuestionOption(a.getQuestionOption().toString());
+                question.setQuestionOption(JSONArray.fromObject(a.getQuestionOption()).toString());
 
-                System.out.println("options:" + question.getQuestionOption());
+                //System.out.println("options:" + question.getQuestionOption());
 
                 //把question存入数据库
                 questionService.insertQuestion(question);

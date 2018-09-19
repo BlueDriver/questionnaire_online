@@ -1,6 +1,8 @@
 package com.sp.questionnaire.service;
 
 import com.sp.questionnaire.entity.Paper;
+import com.sp.questionnaire.entity.view.AddPaperViewPaper;
+import com.sp.questionnaire.entity.view.UpdatePaperViewPaper;
 
 import java.text.ParseException;
 import java.util.List;
@@ -78,4 +80,5 @@ public interface PaperService {
     public Object dataPaper(String id) throws ParseException;
 
 
+    boolean updatePaperQuestions(UpdatePaperViewPaper paper, String userId, AddPaperViewPaper addPaperViewPaper) throws ParseException;
 }

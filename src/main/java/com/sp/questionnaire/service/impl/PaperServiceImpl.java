@@ -4,14 +4,16 @@ import com.sp.questionnaire.dao.PaperDao;
 import com.sp.questionnaire.entity.Answer;
 import com.sp.questionnaire.entity.Paper;
 import com.sp.questionnaire.entity.Question;
-import com.sp.questionnaire.entity.view.DataPaperViewPaper;
-import com.sp.questionnaire.entity.view.DataPaperViewQuestion;
+import com.sp.questionnaire.entity.view.*;
 import com.sp.questionnaire.service.AnswerService;
 import com.sp.questionnaire.service.PaperService;
 import com.sp.questionnaire.service.QuestionService;
 import com.sp.questionnaire.utils.CommonUtils;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 /**
  * description:
  * Author:Xiaowanwan
@@ -27,15 +30,19 @@ import java.util.List;
  */
 @Service
 public class PaperServiceImpl implements PaperService {
-    private final static int dataPaperViewQuestionNum = 100;
+    //private final static int dataPaperViewQuestionNum = 100;
     @Autowired
     private PaperDao paperDao;
+
     @Autowired
     private QuestionService questionService;
+
     @Autowired
     private CommonUtils commonUtils;
     @Autowired
     private AnswerService answerService;
+    @Autowired
+    private PaperMethodHelp paperMethodHelp;
 
     @Override
     public List<Paper> queryPaper() {
@@ -57,11 +64,12 @@ public class PaperServiceImpl implements PaperService {
     public boolean insertPaper(Paper paper) {
         if (paper != null && !"".equals(paper.getId())) {
             try {
+                System.err.println(paper.toString());
                 int i = paperDao.insertPaper(paper);
                 if (i == 1) {
                     return true;
                 } else {
-                    throw new RuntimeException("a:删除试卷失败！" + paper);
+                    throw new RuntimeException("a:插入试卷失败！" + paper);
                 }
             } catch (Exception e) {
                 throw new RuntimeException("b:插入试卷失败：" + e.getMessage());
@@ -150,10 +158,10 @@ public class PaperServiceImpl implements PaperService {
             //对应DataPaperViewPaper里的questions，就是下面的对象数组
             List<DataPaperViewQuestion> questions = new ArrayList<>();
             //定义上面的List里面的对象数组，必须初始化
-            DataPaperViewQuestion[] dataPaperViewQuestion = new DataPaperViewQuestion[dataPaperViewQuestionNum];
-            for (int i = 0; i < dataPaperViewQuestionNum; i++) {//初始化数组
-                dataPaperViewQuestion[i] = new DataPaperViewQuestion();
-            }
+            DataPaperViewQuestion dataPaperViewQuestion = new DataPaperViewQuestion();
+            //for (int i = 0; i < dataPaperViewQuestionNum; i++) {//初始化数组
+            //    dataPaperViewQuestion[i] = new DataPaperViewQuestion();
+            //}
             int num = 0;//记录数组下标
 
             //System.out.println("paperid"+paper.getId());
@@ -161,6 +169,18 @@ public class PaperServiceImpl implements PaperService {
             List<Question> list1 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(), 1);
             List<Question> list2 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(), 2);
             List<Question> list3 = questionService.getQuestionsByPaperIdAndQuestionType(paper.getId(), 3);
+
+
+            JSONObject json = new JSONObject();
+            json.put("id", paper.getId());
+            json.put("title", paper.getTitle());
+            json.put("status", paper.getStatus());
+            json.put("createTime", commonUtils.getLongByDate(paper.getCreateTime()));
+            json.put("startTime", commonUtils.getDateStringByDate(paper.getStartTime()));
+            json.put("endTime", commonUtils.getDateStringByDate(paper.getEndTime()));
+            json.put("totalCount", (list1.size() == 0) ? 0 : answerService.countAnswer(id, list1.get(0).getId()));
+
+            JSONArray jsonArray = new JSONArray();
 
 
             //先把查询到的基本信息放入结果对象
@@ -177,7 +197,14 @@ public class PaperServiceImpl implements PaperService {
 
                     //System.out.println("questionOption============"+question.getQuestionOption().substring(1,question.getQuestionOption().length()-1));
                     //定义单选题的选项数组,中间数组
-                    String[] options = question.getQuestionOption().substring(1, question.getQuestionOption().length() - 1).split(",");
+                    //System.out.println("___----" + JSONArray.fromObject(question.getQuestionOption()));
+                    //[java,c,qq,aa]
+                    //["java","c","qq","aa"]
+                    Object[] o = JSONArray.fromObject(question.getQuestionOption()).toArray();
+                    String[] options = new String[o.length];
+                    for (int i = 0, n = o.length; i < n; i++) {
+                        options[i] = o[i].toString();
+                    }
                     //定义单选题的List对象，用来存QuestionOption。其实对应的就是结果数据下面的questions下的用来存QuestionOption
                     List<String> a = new ArrayList<>();
                     Collections.addAll(a, options);//数组添加到集合里面去
@@ -185,18 +212,24 @@ public class PaperServiceImpl implements PaperService {
                     //定义答案的集合，获取AnswerContent集合，放入b中
                     List<Object> b = new ArrayList<>();
                     List<Answer> listAnswer = answerService.queryAnswerByQuestionId(question.getId());
-                    String option = question.getQuestionOption();//获取到了数据库中的QuestionOption
+                    //String option = question.getQuestionOption();//获取到了数据库中的QuestionOption
                     //[java,c,qq,aa]
                     //System.out.println(option);
-                    String[] ops = option.substring(1, option.length() - 1).split(",");
+                    //String[] ops = {"a", "b", "c"};
+                    //String[] ops = option.substring(1, option.length() - 1).split(",");
 
                     //定义答案统计数组，长度是对应问题选项的长度
-                    int[] ansContent = new int[ops.length];
+                    int[] ansContent = new int[options.length];
+
+                    /*for (int i=0,n=options.length;i<n;i++){
+                        System.out.println("看看options："+options[i]);
+                    }*/
 
                     for (Answer an : listAnswer) {//遍历答案,记录answerContent
                         //System.out.println(an.getAnswerContent());
-                        for (int i = 0, n = ops.length; i < n; i++) {
-                            if (an.getAnswerContent().substring(1, an.getAnswerContent().length() - 1).equals(ops[i])) {
+                        for (int i = 0, n = options.length; i < n; i++) {
+                            //System.out.println("看看answerContent"+an.getAnswerContent());
+                            if (an.getAnswerContent().substring(2, an.getAnswerContent().length() - 2).equals(options[i])) {
                                 //满足条件就累加答案统计数组
                                 ansContent[i]++;
                             }
@@ -206,8 +239,24 @@ public class PaperServiceImpl implements PaperService {
                     //把答案统计数组放入对应结果对象的Questions下的answerContent  的b中
                     Collections.addAll(b, ansContent);
 
+                    JSONArray ja = new JSONArray();//选项
+                    ja.addAll(JSONArray.fromObject(options));
+                    JSONArray jTimes = new JSONArray();//被选次数
+                    jTimes.addAll(JSONArray.fromObject(ansContent));
+
+                    JSONObject jo = new JSONObject();
+                    jo.put("id", question.getId());
+                    jo.put("questionType", 1);
+                    jo.put("questionTitle", question.getQuestionTitle());
+                    jo.put("questionOption", ja);//选项
+                    jo.put("answerContent", jTimes);//选项被选次数
+
+                    jsonArray.add(jo);
+
+
+                    dataPaperViewQuestion = new DataPaperViewQuestion();
                     //把单个question的信息放入question中,questions集合下对应的对象就是dataPaperViewQuestion
-                    dataPaperViewQuestion[num].setId(question.getId())
+                    dataPaperViewQuestion.setId(question.getId())
                             .setQuestionType(1)
                             .setQuestionTitle(question.getQuestionTitle())
                             .setQuestionOption(a)
@@ -219,8 +268,8 @@ public class PaperServiceImpl implements PaperService {
                     //System.out.println("json1:"+json);
 
                     //把上面的一个question对象放入questions集合中,question对象对应的数组下标加1
-                    questions.add(dataPaperViewQuestion[num]);
-                    num++;
+                    questions.add(dataPaperViewQuestion);
+                    //num++;
                     //json = new JSONObject();
                     //json.put("data1", questions);
                     //System.out.println("json1:"+json);
@@ -240,7 +289,14 @@ public class PaperServiceImpl implements PaperService {
 
                 for (Question q : list2) {
                     //定义多选题的选项数组,中间数组
-                    String[] options = q.getQuestionOption().substring(1, q.getQuestionOption().length() - 1).split(",");
+
+                    //String[] options = q.getQuestionOption().substring(1, q.getQuestionOption().length() - 1).split(",");
+                    //String[] options = (String[]) JSONArray.fromObject(q.getQuestionOption()).toArray();
+                    Object[] o = JSONArray.fromObject(q.getQuestionOption()).toArray();
+                    String[] options = new String[o.length];
+                    for (int i = 0, n = o.length; i < n; i++) {
+                        options[i] = o[i].toString();
+                    }
                     //定义多选题的List对象，用来存QuestionOption。其实对应的就是结果数据下面的questions下的用来存QuestionOption
                     List<String> a = new ArrayList<>();
                     Collections.addAll(a, options);
@@ -250,27 +306,31 @@ public class PaperServiceImpl implements PaperService {
 
                     //获取所有的选项
                     List<Answer> listAnswer = answerService.queryAnswerByQuestionId(q.getId());
-                    String option = q.getQuestionOption();//获取到了数据库中的QuestionOption
+                    //String[] option = {"a","b","c"};
+                    //String option = q.getQuestionOption();//获取到了数据库中的QuestionOption
                     //[java,c,qq,aa]
                     //System.out.println(option);
-                    String[] ops = option.substring(1, option.length() - 1).split(",");
+                    //String[] ops = {"a", "b", "c"};//option.substring(1, option.length() - 1).split(",");
 
                     //定义答案统计数组，长度是对应问题选项的长度
-                    int[] ansContent = new int[ops.length];//定义结果数组
+                    int[] ansContent = new int[options.length];//定义结果数组
 
+                    /* for (int i=0,n=options.length;i<n;i++){
+                        System.out.println("看看options："+options[i]);
+                    }*/
 
                     for (Answer an : listAnswer) {//遍历答案,记录answerContent
 
                         //System.out.println(an.getAnswerContent());
                         //[java,qq,aa]
-                        String temp = an.getAnswerContent().substring(1, an.getAnswerContent().length() - 1);//去括号java,qq,aa
+                        String temp = an.getAnswerContent().substring(1, an.getAnswerContent().length() - 1);//去括号["java","qq","aa"]
 
                         //记录an.getAnswerContent()，每一个答案的每一个选项
                         String[] answerContents = temp.split(",");
-                        //System.out.println(an.getAnswerContent());//[java,qq,aa]
-                        for (int i = 0, n = ops.length; i < n; i++) {
+                        //System.out.println("看看AnswerContent："+an.getAnswerContent());//[java,qq,aa]
+                        for (int i = 0, n = options.length; i < n; i++) {
                             for (int j = 0, m = answerContents.length; j < m; j++) {
-                                if (answerContents[j].equals(ops[i])) {
+                                if (answerContents[j].substring(1, answerContents[j].length() - 1).equals(options[i])) {
                                     ansContent[i]++;
                                 }
                             }
@@ -279,17 +339,32 @@ public class PaperServiceImpl implements PaperService {
                     }
                     Collections.addAll(b, ansContent);
 
+                    JSONArray ja = new JSONArray();//选项
+                    ja.addAll(JSONArray.fromObject(options));
+                    JSONArray jTimes = new JSONArray();//被选次数
+                    jTimes.addAll(JSONArray.fromObject(ansContent));
+
+                    JSONObject jo = new JSONObject();
+                    jo.put("id", q.getId());
+                    jo.put("questionType", 2);
+                    jo.put("questionTitle", q.getQuestionTitle());
+                    jo.put("questionOption", ja);//选项
+                    jo.put("answerContent", jTimes);//选项被选次数
+
+                    jsonArray.add(jo);
+
+                    dataPaperViewQuestion = new DataPaperViewQuestion();
 
                     //一层一层加数据
                     //System.out.println("questions0============="+questions);
-                    dataPaperViewQuestion[num].setId(q.getId())
+                    dataPaperViewQuestion.setId(q.getId())
                             .setQuestionType(2)
                             .setQuestionTitle(q.getQuestionTitle())
                             .setQuestionOption(a)
                             .setAnswerContent(b);
                     //System.out.println("questions1============="+questions);
-                    questions.add(dataPaperViewQuestion[num]);
-                    num++;
+                    questions.add(dataPaperViewQuestion);
+                    //num++;
                     //System.out.println("questions2============="+questions);
                     /*JSONObject json = new JSONObject();
                     json.put("before", questions);
@@ -302,9 +377,9 @@ public class PaperServiceImpl implements PaperService {
                     System.out.println("json1-2:"+json);*/
 
                 }
-                JSONObject json = new JSONObject();
-                json.put("data2", dataPaperViewPaper);
-                System.out.println("json2:" + json);
+                //JSONObject json = new JSONObject();
+                //json.put("data2", dataPaperViewPaper);
+                //System.out.println("json2:" + json);
                 //return dataPaperViewPaper;
             }
 
@@ -328,10 +403,25 @@ public class PaperServiceImpl implements PaperService {
                         b.add(a.getAnswerContent().substring(1, a.getAnswerContent().length() - 1));
                     }
 
+                    JSONArray ja = new JSONArray();//选项,空值就行
+                    //ja.addAll(JSONArray.fromObject(options));
+                    JSONArray jTimes = new JSONArray();//被选次数
+                    jTimes.addAll(JSONArray.fromObject(b));
+
+                    JSONObject jo = new JSONObject();
+                    jo.put("id", questionThree.getId());
+                    jo.put("questionType", 3);
+                    jo.put("questionTitle", questionThree.getQuestionTitle());
+                    jo.put("questionOption", ja);//选项
+                    jo.put("answerContent", jTimes);//选项被选次数
+
+                    jsonArray.add(jo);
+
+                    dataPaperViewQuestion = new DataPaperViewQuestion();
 
                     //数据层层加入
                     // System.out.println("num==========="+num);
-                    dataPaperViewQuestion[num].setId(questionThree.getId())
+                    dataPaperViewQuestion.setId(questionThree.getId())
                             .setQuestionType(3)
                             .setQuestionTitle(questionThree.getQuestionTitle())
                             .setQuestionOption(new ArrayList<String>())
@@ -342,8 +432,8 @@ public class PaperServiceImpl implements PaperService {
                     //json.put("before", questions);
                     //System.out.println("json1:"+json);
 
-                    questions.add(dataPaperViewQuestion[num]);
-                    num++;
+                    questions.add(dataPaperViewQuestion);
+                    //num++;
                     //json = new JSONObject();
                     //json.put("data1", questions);
                     //System.out.println("json1:"+json);
@@ -351,15 +441,16 @@ public class PaperServiceImpl implements PaperService {
                     dataPaperViewPaper.setQuestions(questions);
 
                 }
-                JSONObject json = new JSONObject();
-                json.put("data3", dataPaperViewPaper);
-                System.out.println("json3:" + json);
+                //JSONObject json = new JSONObject();
+                //json.put("data3", dataPaperViewPaper);
+                //System.out.println("json3:" + json);
 
             }
 
 
-            if (dataPaperViewPaper != null) {
-                return dataPaperViewPaper;//最后返回对象
+            if (json != null) {
+                json.put("questions", jsonArray);
+                return json;//最后返回对象
             } else return null;
 
 
@@ -368,4 +459,18 @@ public class PaperServiceImpl implements PaperService {
     }
 
 
+    @Override
+    @Transactional
+    public boolean updatePaperQuestions(UpdatePaperViewPaper paper, String userId, AddPaperViewPaper addPaperViewPaper) throws ParseException {
+
+        deletePaper(paper.getId());
+        questionService.deleteQuestionsByPaperId(paper.getId());
+        //PaperMethodHelp paperMethodHelp = new PaperMethodHelp();
+        paperMethodHelp.insertPaper(addPaperViewPaper, userId, paper.getId());
+
+        return true;
+    }
+
+
 }
+

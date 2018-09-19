@@ -21,7 +21,7 @@ public class PaperQueryView {
     private String title;//试卷标题
     //private String userId;//用户ID，外键
     private Integer status;//状态值：0：未发布1：已发布2：已结束
-    private String createTime;//试卷创建时间
+    private Long createTime;//试卷创建时间
     private String startTime;//开始时间
     private String endTime;//结束时间
 }

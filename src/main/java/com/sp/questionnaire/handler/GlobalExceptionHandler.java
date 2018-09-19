@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     private Map<String, Object> tokenExpired(HttpServletRequest req, Exception e) {
         e.printStackTrace();
-        log.warn("token exception: " , e);
+        log.warn("token exception: ", e);
         Map<String, Object> map = new HashMap<>();
         map.put("code", -1);
         map.put("msg", e.getMessage());
