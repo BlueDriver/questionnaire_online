@@ -1,4 +1,3 @@
-
 package com.sp.questionnaire.web;
 
 
@@ -11,7 +10,6 @@ import com.sp.questionnaire.service.QuestionService;
 import com.sp.questionnaire.utils.CommonUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import net.sf.json.groovy.GJson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,19 +35,21 @@ public class PaperController {
     private QuestionService questionService;
     @Autowired
     private CommonUtils commonUtils;
+    @Autowired
+    private PaperMethodHelp paperMethodHelp;
 
     //获取问卷列表
     @ResponseBody
-    @RequestMapping(value = "api/v1/paper-lists", method = RequestMethod.GET)
+    @RequestMapping(value = "api/v1/admin/paper-lists", method = RequestMethod.GET)
     public Map<String, Object> paperLists(HttpServletRequest request) throws ParseException {
         Map<String, Object> map = new HashMap<>();
 
-        User u = new User();
-        u.setId("1");
-        request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());
+//        User u = new User();
+//        u.setId("1");
+//        request.getSession().setAttribute("admin", u);
+//        request.setAttribute("session", request.getSession());
 
-        User user = (User) request.getSession().getAttribute("admin");
+        User user = (User) request.getAttribute("admin");
         String userId = user.getId();
 
         //Cookie[] tokens = request.getCookies();
@@ -95,13 +95,12 @@ public class PaperController {
 
     //查看问卷
     @ResponseBody
-    @RequestMapping(value = "/api/v1/view-paper", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/admin/view-paper", method = RequestMethod.POST)
     public Map<String, Object> viewPaper(HttpServletRequest request, @RequestBody String id) throws ParseException {
-
-        User u = new User();
-        u.setId("1");
-        request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());
+//        User u = new User();
+//        u.setId("1");
+//        request.getSession().setAttribute("admin", u);
+//        request.setAttribute("session", request.getSession());
 
         Map<String, Object> map = new HashMap<>();
 
@@ -156,49 +155,37 @@ public class PaperController {
         return map;
     }
 
-    //增加问卷
+    /**
+     * // 增加问卷
+     *
+     * @ResponseBody
+     * @RequestMapping(value = "/api/v1/add-paper", method = RequestMethod.POST)
+     * public Map<String, Object> addPaper(HttpServletRequest request, @RequestBody AddPaperViewPaper paper) throws ParseException {
+     * <p>
+     * <p>
+     * User user = (User) request.getAttribute("admin");
+     * <p>
+     * //no need id for add new paper
+     * String id = null;
+     * PaperMethodHelp paperMethodHelp = new PaperMethodHelp();
+     * //return updatePaper((request,  paper));
+     * return paperMethodHelp.insertPaper(paper, user.getId(), id);
+     * <p>
+     * }
+     */
+    //修改问卷 & 新增问卷
     @ResponseBody
-    @RequestMapping(value = "/api/v1/add-paper", method = RequestMethod.POST)
-    public Map<String, Object> addPaper(HttpServletRequest request, @RequestBody AddPaperViewPaper paper) throws ParseException {
-        Map<String, Object> map = new HashMap<>();
-        //System.err.println("--"+paper.getQuestions().toString()+"--");
-        //System.out.println(JSONArray.fromObject(paper.getQuestions()));
-        //JSONArray.fromObject(paper.getQuestions().toString());
-       /* for (AddPaperViewQuestion q:paper.getQuestions()) {
-            System.out.println("#####################");
-            System.out.println(JSONArray.fromObject(q.getQuestionOption()));
-        }*/
-        User u = new User();
-        u.setId("1");
-        request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());
-
-        HttpSession session = (HttpSession) request.getAttribute("session");
-
-        User user = (User) session.getAttribute("admin");
-
-        //no need id for add new paper
-        String id = null;
-        PaperMethodHelp paperMethodHelp = new PaperMethodHelp();
-
-        return paperMethodHelp.insertPaper(paper, user.getId(), id);
-
-    }
-
-
-    //修改问卷
-    @ResponseBody
-    @RequestMapping(value = "/api/v1/update-paper", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/v1/admin/update-paper", method = RequestMethod.POST)
     public Map<String, Object> updatePaper(HttpServletRequest request, @RequestBody UpdatePaperViewPaper paper) throws ParseException {
 
-        User u = new User();
-        u.setId("1");
-        request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());
-
+//        User u = new User();
+//        u.setId("1");
+//        request.getSession().setAttribute("admin", u);
+//        request.setAttribute("session", request.getSession());
+        User user = (User) request.getAttribute("admin");
 
         Map<String, Object> map = new HashMap<>();
-        //转换paper
+        //转换addPaper
         AddPaperViewPaper addPaperViewPaper = new AddPaperViewPaper();
         addPaperViewPaper.setTitle(paper.getTitle());
         addPaperViewPaper.setEndTime(paper.getEndTime());
@@ -206,22 +193,18 @@ public class PaperController {
         addPaperViewPaper.setStartTime(paper.getStartTime());
         addPaperViewPaper.setStatus(paper.getStatus());
 
-
         //删除Paper
         if (paper.getId() == null) {
-            map.put("code", 2);
-            map.put("msg", "要删除试卷的id 不能为空");
+            //插入代码
+            map = paperMethodHelp.insertPaper(addPaperViewPaper, user.getId(), paper.getId());
+            if ((int) map.get("code") == 0) {
+                map.put("data", 0);
+            }
             return map;
-        } else {
+        } else {//更新
             HttpSession session = (HttpSession) request.getAttribute("session");
             if (session.getAttribute("admin") != null) {
                 //通过检测，准备添加数据
-                //System.out.println("准备添加数据");
-                Question question = new Question();
-                Paper paper1 = new Paper();
-                java.lang.String paper1Id = commonUtils.getUUID();
-
-                User user = (User) session.getAttribute("admin");
                 if (paperService.updatePaperQuestions(paper, user.getId(), addPaperViewPaper)) {
                     map.put("code", 0);
                     map.put("msg", "ok");
@@ -237,12 +220,10 @@ public class PaperController {
 
     ///delete-paper
     @ResponseBody
-    @RequestMapping(value = "api/v1/delete-paper", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/admin/delete-paper", method = RequestMethod.POST)
     public Map<String, Object> deletePaper(HttpServletRequest request, @RequestBody Object idList) {
-        User u = new User();
-        u.setId("1");
-        request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());
+
+
 
         List<String> listId = new ArrayList<>();
         JSONObject j = JSONObject.fromObject(idList);
@@ -272,7 +253,6 @@ public class PaperController {
             map.put("code", 2);
             map.put("msg", "要删除试卷的id 不能为空");
             return map;
-            //return map;
         } else {
             if (paperService.deleteManyPaper(listId)) {
                 map.put("code", 0);
@@ -288,13 +268,13 @@ public class PaperController {
 
     //查看问卷数据
     @ResponseBody
-    @RequestMapping(value = "api/v1/paper-data", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/admin/paper-data", method = RequestMethod.POST)
     public Map<String, Object> dataPaper(HttpServletRequest request, @RequestBody String id) throws ParseException {
 
-        User u = new User();
-        u.setId("1");
-        request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());
+//        User u = new User();
+//        u.setId("1");
+//        request.getSession().setAttribute("admin", u);
+//        request.setAttribute("session", request.getSession());
 
 
         JSONObject json = JSONObject.fromObject(id);
@@ -303,12 +283,12 @@ public class PaperController {
         Map<String, Object> map = new HashMap<>();
         if (id == null) {
             map.put("code", 2);
-            map.put("msg", "要查看data试卷的id 不能为空");
+            map.put("msg", "要查看data试卷的id不能为空");
             return map;
         } else {
             if (paperService.dataPaper(id) == null) {
                 map.put("code", 2);
-                map.put("msg", "要查看data试卷的id 错误");
+                map.put("msg", "要查看data试卷的id无效");
                 return map;
             } else {
                 //DataPaperViewPaper dataPaperViewPaper = (DataPaperViewPaper) paperService.dataPaper(id);
@@ -319,10 +299,6 @@ public class PaperController {
                 return map;
             }
         }
-
-
-        //return map;
-
 
     }
 

@@ -50,6 +50,14 @@ public interface AnswerService {
     public boolean insertAnswer(Answer answer);
 
     /**
+     *  <P>插入一份试卷的所有答案 </p>
+     *
+     *  @param answer
+     *  @return
+     */
+    public boolean insertAnswerList(List<Answer> answer);
+
+    /**
      * 更新Answer,返回影响行数
      *
      * @param answer

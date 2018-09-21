@@ -18,10 +18,10 @@ import java.util.concurrent.Executor;
 public class AsyncConfig {
     @Value("${task.coreSize}")
     private int corePoolSize;
-    @Value("${task.maxSize}")
-    private int maxPoolSize = 8;
+    @Value("${task.maxPoolSize}")
+    private int maxPoolSize;
     @Value("${task.queueCapacity}")
-    private int queueCapacity = 2;
+    private int queueCapacity;
     @Bean
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();

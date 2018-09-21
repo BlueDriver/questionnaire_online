@@ -19,6 +19,19 @@
         ORDER BY id DESC
     </select>
 
+    <select id="queryPaperWithStatus1" resultType="com.sp.questionnaire.entity.Paper">
+        SELECT
+            id,
+            user_id,
+            title,
+            create_time,
+            status,
+            start_time,
+            end_time
+        FROM paper
+         WHERE status = 1
+    </select>
+
     <select id="queryPaperByUserID" resultType="com.sp.questionnaire.entity.Paper">
         SELECT
             id,
@@ -44,11 +57,11 @@
         end_time
         FROM paper
         WHERE
-        id=#{id} and status in (0,1,2)
+        id=#{id}
     </select>
 
     <insert id="insertPaper" keyProperty="id" keyColumn="id"
-            parameterType="com.sp.questionnaire.entity.Paper" >
+            parameterType="com.sp.questionnaire.entity.Paper">
         INSERT INTO paper(
             id,
             user_id,

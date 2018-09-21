@@ -60,6 +60,17 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Transactional
     @Override
+    public boolean insertAnswerList(List<Answer> answer) {
+        for (Answer ans : answer) {
+            if (answerDao.insertAnswer(ans) != 1) {
+                throw new RuntimeException("插入答案失败");
+            }
+        }
+        return true;
+    }
+
+    @Transactional
+    @Override
     public boolean updateAnswer(Answer answer) {
         if (answer != null && !"".equals(answer.getId())) {
             try {

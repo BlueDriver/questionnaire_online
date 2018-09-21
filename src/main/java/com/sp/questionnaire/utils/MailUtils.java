@@ -1,5 +1,7 @@
 package com.sp.questionnaire.utils;
 
+import com.sp.questionnaire.entity.Paper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -30,20 +32,51 @@ public class MailUtils {
     public static String myEmailSMTPHost = "smtp.qq.com";
 
 
-    private String senderName = "在线问卷系统-管理员";
-    private String theme = "在线问卷系统账号激活通知";
+    private String senderName = "在线问卷系统";
+    private String themeActivate = "在线问卷系统账号激活通知";
+    private String themePaperStart = "问卷生效通知";
+    private String themePaperEnd = "问卷结束通知";
 
     @Value("${mail.ActivatePrefix}")
     private String url;
+
+    @Value("${mail.startPaperPrefix}")
+    private String paperUrl;
+
+    @Value("${home.url}")
+    private String homeUrl;
+
+    @Autowired
+    private CommonUtils commonUtils;
 
     public void sendActivateMail(String receiveMailAccount, String nickName, String randomCode) throws MessagingException {
         StringBuffer content = new StringBuffer();
         content.append("<b>您已在本系统成功注册账号<br>昵称为：").append(nickName).append("<br><br>")
                 .append("现在<a href='").append(url).append(randomCode).append("'>点击这里激活账号</a>即可开始使用！")
                 .append("</b><br>如非本人操作，请忽略本邮件。");
-        mailSettings(senderName, theme, receiveMailAccount, nickName, content.toString());
+        mailSettings(senderName, themeActivate, receiveMailAccount, nickName, content.toString());
     }
 
+    public void sendPaperStartMail(String receiveMailAccount, String nickName, Paper paper) throws MessagingException {
+        StringBuffer content = new StringBuffer();
+        content.append("<b>尊敬的").append(nickName).append("<br><br>")
+                .append("您于").append(commonUtils.getFormatDateTime(paper.getCreateTime()))
+                .append("创建的标题为“").append(paper.getTitle()).append("”的问卷，已经可以正式答卷了，快点分享出去吧！<br><br>")
+                .append("现在<a href='").append(paperUrl).append(paper.getId()).append("'>点击这里</a>即可查看问卷详情！</b>")
+                .append("<br><br>使用提示：打开链接后可复制问卷链接或直接分享给他人，亦可<a href='").append(homeUrl).append("'>登录账号</a>查看更多信息。");
+        mailSettings(senderName, themePaperStart, receiveMailAccount, nickName, content.toString());
+
+    }
+
+    public void sendPaperEndMail(String receiveMailAccount, String nickName, Paper paper) throws MessagingException {
+        StringBuffer content = new StringBuffer();
+        content.append("<b>尊敬的").append(nickName).append("<br><br>")
+                .append("您于").append(commonUtils.getFormatDateTime(paper.getCreateTime()))
+                .append("创建的标题为“").append(paper.getTitle()).append("”的问卷，已经结束了！<br><br>")
+                .append("现在<a href='").append(homeUrl).append(paper.getId()).append("'>登录账号</a>即可查看问卷数据详情！</b>")
+                .append("<br><br>使用提示：为便于显示请使用电脑查看。");
+        mailSettings(senderName, themePaperEnd, receiveMailAccount, nickName, content.toString());
+    }
 
     //(session, myEmailAccount, receiveMailAccount, "发件人名字","收件人名字","同志","标题","内容：2943<a href='http://www.baidu.com'>Baidu</a>");
     public void mailSettings(String senderName, String theme, String receiveMailAccount,

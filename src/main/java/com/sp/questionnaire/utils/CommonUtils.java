@@ -50,7 +50,12 @@ public class CommonUtils {
 
     public String getFormatDateTimeNow() {
         return sdfFull.format(System.currentTimeMillis());
+
     }
+    public String getFormatDateTime(Date date) {
+        return sdfFull.format(date);
+    }
+
 
     /**
      * 格式化时间戳

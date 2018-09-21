@@ -18,6 +18,15 @@ public interface PaperDao {
     List<Paper> queryPaper();
 
     /**
+     *  <P>查询状态为已发布的问卷 </p>
+     *  
+     *  @param 
+     *  @return 
+     */
+    List<Paper> queryPaperWithStatus1();
+
+
+    /**
      * 查询某用户的所有Paper，返回List<Paper>
      *
      * @param userId

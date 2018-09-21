@@ -73,7 +73,7 @@ public class AdminInterceptor implements HandlerInterceptor {
             if (tokenHeader != null) {
                 HttpSession session = MySessionContext.getSession(tokenHeader);
                 if (session != null && session.getAttribute("admin") != null) {
-                    request.setAttribute("session", session);
+                    request.setAttribute("admin", session.getAttribute("admin"));
                     return true;
                 }
             } else {
