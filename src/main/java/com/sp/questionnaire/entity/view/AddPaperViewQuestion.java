@@ -3,7 +3,7 @@ package com.sp.questionnaire.entity.view;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * description:添加Paper所定义的中间Question类
@@ -19,6 +19,6 @@ import java.util.ArrayList;
 public class AddPaperViewQuestion {
     private Integer questionType;
     private String questionTitle;
-    private ArrayList<String> questionOption;
+    private List<String> questionOption;
 
 }

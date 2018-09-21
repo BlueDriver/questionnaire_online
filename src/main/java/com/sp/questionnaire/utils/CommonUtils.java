@@ -76,6 +76,9 @@ public class CommonUtils {
      * @return Date
      */
     public Date getDateByDateString(String dateString) {
+        if (dateString == null) {
+            return null;
+        }
         Date date;
         try {
             date = sdfDate.parse(dateString);

@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * description:
@@ -21,6 +22,6 @@ public class AddPaperViewPaper {
     private String startTime;
     private String endTime;
     private Integer status;
-    private ArrayList<AddPaperViewQuestion> questions;
+    private List<AddPaperViewQuestion> questions;
 
 }

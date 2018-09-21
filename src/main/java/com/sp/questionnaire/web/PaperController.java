@@ -196,7 +196,7 @@ public class PaperController {
         //删除Paper
         if (paper.getId() == null) {
             //插入代码
-            map = paperMethodHelp.insertPaper(addPaperViewPaper, user.getId(), paper.getId());
+            map = paperMethodHelp.insertPaper(addPaperViewPaper, user.getId(), null);
             if ((int) map.get("code") == 0) {
                 map.put("data", 0);
             }

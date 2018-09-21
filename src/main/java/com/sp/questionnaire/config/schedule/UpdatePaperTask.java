@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @Component
 @Async
-@EnableScheduling
+//@EnableScheduling
 @Service
 public class UpdatePaperTask {
     @Autowired
