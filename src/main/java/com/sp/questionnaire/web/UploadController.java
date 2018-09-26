@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
@@ -38,13 +39,14 @@ public class UploadController {
     @Autowired
     private PaperMethodHelp paperMethodHelp;
 
-    @PostMapping("/api/v1/upload")
-    public Map<String, Object> upload(@RequestParam("file") MultipartFile file, @RequestParam("token") String token) throws IOException, ParseException {
+    @PostMapping("/api/v1/admin/upload")
+    public Map<String, Object> upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws ParseException {
         Map<String, Object> map = new HashMap<>();
 
 //        User user = new User();
 //        user.setId("1");
-        User user = (User)MySessionContext.getSession("token").getAttribute("admin");
+
+        User user = (User) request.getAttribute("admin");
         if (user == null) {
             map.put("code", -1);
             map.put("msg", "账号未登录或登录已经失效");

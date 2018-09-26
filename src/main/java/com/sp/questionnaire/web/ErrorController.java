@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ErrorController implements org.springframework.boot.autoconfigure.web.ErrorController {
     @Override
     public String getErrorPath() {
-        System.out.println("error page");
+        //System.out.println("error page");
         return "error";
     }
 }

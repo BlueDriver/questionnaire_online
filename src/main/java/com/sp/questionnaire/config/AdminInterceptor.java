@@ -52,7 +52,7 @@ public class AdminInterceptor implements HandlerInterceptor {
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
 
 */
-        System.out.println("pre: " + request.getSession().getId());
+        //System.out.println("pre: " + request.getSession().getId());
 
         //System.out.println("hd origin: " + request.getHeader("Origin"));
 
@@ -64,7 +64,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 
         //controller方法调用之前
         String url = request.getRequestURI();
-        System.out.println("admin preHandler: " + url);
+        //System.out.println("admin preHandler: " + url);
 
         String tokenHeader = request.getHeader("token");
 

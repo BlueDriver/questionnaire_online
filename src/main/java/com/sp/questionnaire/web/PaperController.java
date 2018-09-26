@@ -224,7 +224,6 @@ public class PaperController {
     public Map<String, Object> deletePaper(HttpServletRequest request, @RequestBody Object idList) {
 
 
-
         List<String> listId = new ArrayList<>();
         JSONObject j = JSONObject.fromObject(idList);
 
@@ -251,16 +250,19 @@ public class PaperController {
         Map<String, Object> map = new HashMap<>();
         if (listId.size() <= 0) {
             map.put("code", 2);
-            map.put("msg", "要删除试卷的id 不能为空");
+            map.put("msg", "要删除试卷的id不能为空");
+            map.put("data", 2);
             return map;
         } else {
             if (paperService.deleteManyPaper(listId)) {
                 map.put("code", 0);
                 map.put("msg", "ok");
+                map.put("data", 0);
                 return map;
             } else {
                 map.put("code", 1);
                 map.put("msg", "系统异常");
+                map.put("data", 1);
                 return map;
             }
         }
@@ -268,13 +270,13 @@ public class PaperController {
 
     //查看问卷数据
     @ResponseBody
-    @RequestMapping(value = "api/v1/paper-data", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/admin/paper-data", method = RequestMethod.POST)
     public Map<String, Object> dataPaper(HttpServletRequest request, @RequestBody String id) throws ParseException {
 
-        User u = new User();
-        u.setId("1");
-        request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());
+//        User u = new User();
+//        u.setId("1");
+//        request.getSession().setAttribute("admin", u);
+//        request.setAttribute("session", request.getSession());
 
 
         JSONObject json = JSONObject.fromObject(id);

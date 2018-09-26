@@ -32,12 +32,12 @@ public class UpdatePaperTaskTest {
     @Test
     public void scheduled1() {
         List<Paper> list = paperDao.queryPaperWithStatus1();
-        System.err.println(list.size());
+        //System.err.println(list.size());
         for (Paper paper : list) {
             String id = paper.getUserId();
             User user = userService.queryUserByID(id);
             //mailUtils.sendPaperStartMail(user.getEmail(), user.getUsername(), paper);
-            System.err.println(user + "\t" + paper);
+            //System.err.println(user + "\t" + paper);
         }
     }
 }

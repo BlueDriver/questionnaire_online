@@ -25,8 +25,8 @@ public class StudentController {
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     private Map<String, Object> listStudent(HttpServletRequest request) {
-        System.out.println(request.getSession().getId());
-        System.out.println(request.getRemoteAddr());
+        //System.out.println(request.getSession().getId());
+        //System.out.println(request.getRemoteAddr());
         Map<String, Object> map = new HashMap<>();
         map.put("data", studentService.queryStudent());
         return map;

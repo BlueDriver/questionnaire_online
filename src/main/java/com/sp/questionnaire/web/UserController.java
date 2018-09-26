@@ -66,8 +66,8 @@ public class UserController {
     @ResponseBody//加这个表示返回的是纯文本数据
     @RequestMapping(value = "/api/v1/register", method = RequestMethod.POST)
     public Map<String, Object> register(HttpServletRequest request, @Valid @RequestBody User user, BindingResult result) throws UnsupportedEncodingException, MessagingException {
-        System.out.println("register: " + request.getSession().getId());
-        System.out.println(user);
+        //System.out.println("register: " + request.getSession().getId());
+        //System.out.println(user);
         Map<String, Object> map = new HashMap<>();
         if (result.hasErrors()) {
             FieldError error = result.getFieldErrors().get(0);//获得第第一个错误
@@ -126,7 +126,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/login")
     public Map<String, Object> login(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody User user, BindingResult result) throws UnsupportedEncodingException {
-        System.out.println("login: " + request.getSession().getId());
+        //System.out.println("login: " + request.getSession().getId());
         Map<String, Object> map = new HashMap<>();
         //System.out.println(user.getEmail());
         //登录只需检验email和password
@@ -189,9 +189,9 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/admin/logout")
     public Map<String, Object> logout(HttpServletRequest request) {
-        System.out.println("logout: ");
+        //System.out.println("logout: ");
         HttpSession session = (HttpSession) request.getAttribute("session");
-        System.out.println(session.getId());
+        //System.out.println(session.getId());
         Map<String, Object> map = new HashMap<>();
         if (session.getAttribute("admin") != null) {
             request.removeAttribute("admin");
@@ -215,7 +215,7 @@ public class UserController {
             return "invalid";
         }
         User user0 = userService.queryUserByRandomCode(code);
-        System.out.println(user0);
+        //System.out.println(user0);
         if (user0 != null) {
 
             if (user0.getStatus() == 0) {//user is not activate
