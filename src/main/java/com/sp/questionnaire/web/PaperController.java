@@ -268,13 +268,13 @@ public class PaperController {
 
     //查看问卷数据
     @ResponseBody
-    @RequestMapping(value = "api/v1/admin/paper-data", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/paper-data", method = RequestMethod.POST)
     public Map<String, Object> dataPaper(HttpServletRequest request, @RequestBody String id) throws ParseException {
 
-//        User u = new User();
-//        u.setId("1");
-//        request.getSession().setAttribute("admin", u);
-//        request.setAttribute("session", request.getSession());
+        User u = new User();
+        u.setId("1");
+        request.getSession().setAttribute("admin", u);
+        request.setAttribute("session", request.getSession());
 
 
         JSONObject json = JSONObject.fromObject(id);

@@ -400,13 +400,14 @@ public class PaperServiceImpl implements PaperService {
                     List<Answer> listAnswer = answerService.queryAnswerByQuestionId(questionThree.getId());
                     List<Object> b = new ArrayList<>();
                     for (Answer a : listAnswer) {
-                        b.add(a.getAnswerContent().substring(1, a.getAnswerContent().length() - 1));
+                        b.add(a.getAnswerContent().substring(2, a.getAnswerContent().length() - 2));
                     }
+
 
                     JSONArray ja = new JSONArray();//选项,空值就行
                     //ja.addAll(JSONArray.fromObject(options));
                     JSONArray jTimes = new JSONArray();//被选次数
-                    jTimes.addAll(JSONArray.fromObject(b));
+                    jTimes=JSONArray.fromObject(b);
 
                     JSONObject jo = new JSONObject();
                     jo.put("id", questionThree.getId());
