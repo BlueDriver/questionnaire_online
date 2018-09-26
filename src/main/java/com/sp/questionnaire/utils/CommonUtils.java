@@ -89,6 +89,9 @@ public class CommonUtils {
     }
 
     public String getDateStringByDate(Date date) throws ParseException {
+        if (date == null) {
+            return null;
+        }
         return sdfDate.format(date);
     }
 

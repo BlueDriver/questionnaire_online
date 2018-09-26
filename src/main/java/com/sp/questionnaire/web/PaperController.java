@@ -202,8 +202,8 @@ public class PaperController {
             }
             return map;
         } else {//更新
-            HttpSession session = (HttpSession) request.getAttribute("session");
-            if (session.getAttribute("admin") != null) {
+
+            if (user != null) {
                 //通过检测，准备添加数据
                 if (paperService.updatePaperQuestions(paper, user.getId(), addPaperViewPaper)) {
                     map.put("code", 0);

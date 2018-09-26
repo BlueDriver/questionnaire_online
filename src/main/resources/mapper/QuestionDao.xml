@@ -25,7 +25,7 @@
         FROM question
         WHERE
         paper_id=#{paperId}
-        ORDER BY create_time ASC
+        ORDER BY question_type ASC
     </select>
 
     <select id="queryQuestionById" resultType="com.sp.questionnaire.entity.Question">
