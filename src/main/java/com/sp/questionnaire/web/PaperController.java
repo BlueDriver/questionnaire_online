@@ -211,8 +211,8 @@ public class PaperController {
             }
             return map;
         } else {//更新
-            HttpSession session = (HttpSession) request.getAttribute("session");
-            if (session.getAttribute("admin") != null) {
+
+            if (user != null) {
                 //通过检测，准备添加数据
                 if (paperService.updatePaperQuestions(paper, user.getId(), addPaperViewPaper)) {
                     map.put("code", 0);
@@ -231,7 +231,6 @@ public class PaperController {
     @ResponseBody
     @RequestMapping(value = "api/v1/admin/delete-paper", method = RequestMethod.POST)
     public Map<String, Object> deletePaper(HttpServletRequest request, @RequestBody Object idList) {
-
 
 
         List<String> listId = new ArrayList<>();
@@ -260,16 +259,19 @@ public class PaperController {
         Map<String, Object> map = new HashMap<>();
         if (listId.size() <= 0) {
             map.put("code", 2);
-            map.put("msg", "要删除试卷的id 不能为空");
+            map.put("msg", "要删除试卷的id不能为空");
+            map.put("data", 2);
             return map;
         } else {
             if (paperService.deleteManyPaper(listId)) {
                 map.put("code", 0);
                 map.put("msg", "ok");
+                map.put("data", 0);
                 return map;
             } else {
                 map.put("code", 1);
                 map.put("msg", "系统异常");
+                map.put("data", 1);
                 return map;
             }
         }
@@ -279,13 +281,6 @@ public class PaperController {
     @ResponseBody
     @RequestMapping(value = "api/v1/admin/paper-data", method = RequestMethod.POST)
     public Map<String, Object> dataPaper(HttpServletRequest request, @RequestBody String id) throws ParseException {
-
-        /*User u = new User();
-        u.setId("1");
-        request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());*/
-
-
         JSONObject json = JSONObject.fromObject(id);
         id = json.getString("id");
         //System.out.println("---------------" + id + "---------------------");

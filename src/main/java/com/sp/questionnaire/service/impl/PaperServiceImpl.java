@@ -64,7 +64,7 @@ public class PaperServiceImpl implements PaperService {
     public boolean insertPaper(Paper paper) {
         if (paper != null && !"".equals(paper.getId())) {
             try {
-                System.err.println(paper.toString());
+                //System.err.println(paper.toString());
                 int i = paperDao.insertPaper(paper);
                 if (i == 1) {
                     return true;

@@ -44,7 +44,7 @@ public class UpdatePaperTask {
      */
     @Scheduled(fixedRate = 60_000)
     public void scheduled1() throws MessagingException {
-        System.out.println(new Date() + "\t" + Thread.currentThread().getName());
+        //System.out.println(new Date() + "\t" + Thread.currentThread().getName());
 //        Thread.currentThread().getId());
 //        i++;
 //        Thread.sleep(2000);

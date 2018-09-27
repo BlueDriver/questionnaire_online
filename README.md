@@ -711,22 +711,21 @@ domain/template.xls
  ### 2.10 上传问卷模板文件生成问卷
  #### 接口地址
  ```
- domain/api/v1/upload
+ domain/api/v1/admin/upload
  ```
  #### 请求方式
- HTTP	POST，以form形式提交
+ HTTP	POST
  #### 请求示例
  ```
  {
-    "file": file,
-    "token": "lkdfjlkooo32ikasofj"
+    "file": FILE    //文件
  }
  ```
  > #### 请求参数
  参数  |	类型	| 是否必须 |	取值范围	| 说明
  :---  |:---|:---|:---|:---
  file  |FILE|Y         | -          |文件模板文件(Excel)
- token |String |Y         | -       |登录成功后获得的token  
+ 
  
 
  #### 返回参数
