@@ -229,9 +229,11 @@ public class PaperServiceImpl implements PaperService {
                         //System.out.println(an.getAnswerContent());
                         for (int i = 0, n = options.length; i < n; i++) {
                             //System.out.println("看看answerContent"+an.getAnswerContent());
-                            if (an.getAnswerContent().substring(2, an.getAnswerContent().length() - 2).equals(options[i])) {
-                                //满足条件就累加答案统计数组
-                                ansContent[i]++;
+                            if (an.getAnswerContent().length() > 4) {
+                                if (an.getAnswerContent().substring(2, an.getAnswerContent().length() - 2).equals(options[i])) {
+                                    //满足条件就累加答案统计数组
+                                    ansContent[i]++;
+                                }
                             }
                         }
                     }
@@ -323,15 +325,22 @@ public class PaperServiceImpl implements PaperService {
 
                         //System.out.println(an.getAnswerContent());
                         //[java,qq,aa]
-                        String temp = an.getAnswerContent().substring(1, an.getAnswerContent().length() - 1);//去括号["java","qq","aa"]
-
+                        String temp="";
+                        if (an.getAnswerContent().length() > 2) {
+                            temp = an.getAnswerContent().substring(1, an.getAnswerContent().length() - 1);//去括号["java","qq","aa"]
+                        }
+                        String[] answerContents=null;
+                        if (temp!=null){
                         //记录an.getAnswerContent()，每一个答案的每一个选项
-                        String[] answerContents = temp.split(",");
+                        answerContents = temp.split(",");
+                        }
                         //System.out.println("看看AnswerContent："+an.getAnswerContent());//[java,qq,aa]
                         for (int i = 0, n = options.length; i < n; i++) {
                             for (int j = 0, m = answerContents.length; j < m; j++) {
-                                if (answerContents[j].substring(1, answerContents[j].length() - 1).equals(options[i])) {
-                                    ansContent[i]++;
+                                if (answerContents.length > 2) {
+                                    if (answerContents[j].substring(1, answerContents[j].length() - 1).equals(options[i])) {
+                                        ansContent[i]++;
+                                    }
                                 }
                             }
 
@@ -400,14 +409,16 @@ public class PaperServiceImpl implements PaperService {
                     List<Answer> listAnswer = answerService.queryAnswerByQuestionId(questionThree.getId());
                     List<Object> b = new ArrayList<>();
                     for (Answer a : listAnswer) {
-                        b.add(a.getAnswerContent().substring(2, a.getAnswerContent().length() - 2));
+                        if (a.getAnswerContent().length() > 4) {
+                            b.add(a.getAnswerContent().substring(2, a.getAnswerContent().length() - 2));
+                        }
                     }
 
 
                     JSONArray ja = new JSONArray();//选项,空值就行
                     //ja.addAll(JSONArray.fromObject(options));
                     JSONArray jTimes = new JSONArray();//被选次数
-                    jTimes=JSONArray.fromObject(b);
+                    jTimes = JSONArray.fromObject(b);
 
                     JSONObject jo = new JSONObject();
                     jo.put("id", questionThree.getId());
