@@ -1,4 +1,4 @@
-﻿package com.sp.questionnaire.entity.view;
+package com.sp.questionnaire.entity.view;
 
 import com.sp.questionnaire.entity.Paper;
 import com.sp.questionnaire.entity.Question;

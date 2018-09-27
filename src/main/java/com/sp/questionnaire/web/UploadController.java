@@ -1,15 +1,9 @@
 package com.sp.questionnaire.web;
 
-import com.sp.questionnaire.config.session.MySessionContext;
 import com.sp.questionnaire.entity.User;
 import com.sp.questionnaire.entity.view.AddPaperViewPaper;
-import com.sp.questionnaire.entity.view.AddPaperViewQuestion;
 import com.sp.questionnaire.entity.view.PaperMethodHelp;
 import com.sp.questionnaire.utils.FileConvertToPaper;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,12 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /*
