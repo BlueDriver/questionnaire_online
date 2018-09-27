@@ -97,10 +97,10 @@ public class PaperController {
     @ResponseBody
     @RequestMapping(value = "/api/v1/admin/view-paper", method = RequestMethod.POST)
     public Map<String, Object> viewPaper(HttpServletRequest request, @RequestBody String id) throws ParseException {
-//        User u = new User();
-//        u.setId("1");
-//        request.getSession().setAttribute("admin", u);
-//        request.setAttribute("session", request.getSession());
+  /*      User u = new User();
+        u.setId("1");
+        request.getSession().setAttribute("admin", u);
+        request.setAttribute("session", request.getSession());*/
 
         Map<String, Object> map = new HashMap<>();
 
@@ -118,7 +118,16 @@ public class PaperController {
                 map.put("msg", "id 不正确");
             } else {
                 map.put("code", 0);
-                map.put("msg", "ok");
+                if (p.getStatus()==0){
+                    map.put("msg", "该问卷未发布");
+                }else if (p.getStatus()==2){
+                    map.put("msg", "该问卷已结束");
+                }else if (p.getStatus()==3){
+                    map.put("msg", "无此问卷");
+                }else if (p.getStatus()==4){
+                    map.put("msg", "已发布但未到开始时间");
+                }
+
                 JSONObject jsonObject = new JSONObject();
                 //jsonObject.put("id",id);
                 jsonObject.put("id", id);
@@ -268,13 +277,13 @@ public class PaperController {
 
     //查看问卷数据
     @ResponseBody
-    @RequestMapping(value = "api/v1/paper-data", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/admin/paper-data", method = RequestMethod.POST)
     public Map<String, Object> dataPaper(HttpServletRequest request, @RequestBody String id) throws ParseException {
 
-        User u = new User();
+        /*User u = new User();
         u.setId("1");
         request.getSession().setAttribute("admin", u);
-        request.setAttribute("session", request.getSession());
+        request.setAttribute("session", request.getSession());*/
 
 
         JSONObject json = JSONObject.fromObject(id);
