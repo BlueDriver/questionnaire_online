@@ -1,4 +1,4 @@
-package com.sp.questionnaire.entity.view;
+﻿package com.sp.questionnaire.entity.view;
 
 import com.sp.questionnaire.entity.Paper;
 import com.sp.questionnaire.entity.Question;
@@ -108,7 +108,7 @@ public class PaperMethodHelp {
             map.put("code", 2);
             map.put("msg", "试卷题目 不能为空");
             return map;
-        } else if (paper.getTitle().length() <= 2 || paper.getTitle().length() >= 64) {
+        } else if (paper.getTitle().length() < 2 || paper.getTitle().length() > 64) {
             map.put("code", 2);
             map.put("msg", "试卷题目 应该在2个字符到64个字符之间");
             return map;
