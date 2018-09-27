@@ -3,14 +3,11 @@ package com.sp.questionnaire.config.schedule;
 import com.sp.questionnaire.dao.PaperDao;
 import com.sp.questionnaire.entity.Paper;
 import com.sp.questionnaire.entity.User;
-import com.sp.questionnaire.service.PaperService;
 import com.sp.questionnaire.service.UserService;
 import com.sp.questionnaire.utils.MailUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -42,7 +39,7 @@ public class UpdatePaperTask {
     /**
      * 每隔N毫秒执行一次
      */
-    @Scheduled(fixedRate = 60_000)
+    @Scheduled(fixedRate = 59_000)
     public void scheduled1() throws MessagingException {
         //System.out.println(new Date() + "\t" + Thread.currentThread().getName());
 //        Thread.currentThread().getId());

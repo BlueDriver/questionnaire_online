@@ -1,17 +1,8 @@
 package com.sp.questionnaire;
 
-import com.sp.questionnaire.config.session.MySessionContext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
 
 /*
  * Author: Seven

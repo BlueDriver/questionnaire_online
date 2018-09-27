@@ -102,7 +102,10 @@ public class PaperMethodHelp {
         }
     }
 
-    public Map<String, Object> checkPaper(AddPaperViewPaper paper) throws ParseException {
+    public Map<String, Object> checkPaper(AddPaperViewPaper paper) {
+        if (paper.getStatus() == 0) {
+            return null;
+        }
         Map<String, Object> map = new HashMap<>();
         if (paper.getTitle() == null || "".equals(paper.getTitle())) {
             map.put("code", 2);
