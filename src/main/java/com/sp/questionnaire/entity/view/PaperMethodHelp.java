@@ -135,7 +135,7 @@ public class PaperMethodHelp {
                     return map;
                 } else if ((a.getQuestionType() == 1 || a.getQuestionType() == 2) && a.getQuestionOption().size() < 2) {
                     map.put("code", 2);
-                    map.put("msg", "问题名为" + a.getQuestionTitle() + "的问题选项不足够");
+                    map.put("msg", "问题名为" + a.getQuestionTitle() + "的问题类型不满足");
                     return map;
                 } else if (a.getQuestionType() == 3 && a.getQuestionOption().size() > 0) {
                     map.put("code", 2);

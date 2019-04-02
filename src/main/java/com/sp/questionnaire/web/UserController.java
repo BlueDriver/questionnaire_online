@@ -18,7 +18,6 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -245,7 +244,6 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> userViewPaper(String id) throws ParseException {
         Map<String, Object> map = new HashMap<>();
-
         if (id == null) {
             map.put("code", 2);
             map.put("msg", "问卷id不能为空");

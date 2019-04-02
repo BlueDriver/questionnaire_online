@@ -2,7 +2,6 @@ package com.sp.questionnaire.config;
 
 
 import com.sp.questionnaire.config.session.MySessionListener;
-import org.apache.catalina.SessionListener;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
