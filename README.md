@@ -1,5 +1,8 @@
 # 在线问卷系统
 [体验地址](http://www.niceming.cn/questionnaire/)
+
+> 参考项目：[SpringBoot2.x+maven多模块项目示例](https://github.com/BlueDriver/SpringBoot-rest-demo)
+
 # 数据库名称：questionnaire
 字符集：UTF-8
 ## user表
@@ -596,11 +599,11 @@ answerContent  |-     |Y         | 0-512字符  |答题选项， 是选择题则
  参数  |	类型	| 是否必须 |	取值范围	| 说明
  :---  |:---  |:---      |:---        |:---
  code  |int   |Y         | -          |0.操作成功，1.操作失败,2.问卷id无效
+
  
+
  
- 
- 
- 
+
  
 
 
@@ -621,7 +624,7 @@ answerContent  |-     |Y         | 0-512字符  |答题选项， 是选择题则
  参数  |	类型	| 是否必须 |	取值范围	| 说明
  :---  |:---|:---|:---|:---
  id    |String|Y         | -         | 问卷id
- 
+
  #### 返回参数
  返回示例
  ```
@@ -683,7 +686,7 @@ answerContent  |-     |Y         | 0-512字符  |答题选项， 是选择题则
  endTime    |String|Y         | -          |问卷结束日期，若未设置则是空字符串
  totalCount |int   |Y         | -          |问卷被达总次数（人次）
  questions  |Array |Y         | -          |问题列表     
- 
+
  > #### questions参数说明
  参数  |	类型	| 是否必须 |	取值范围	| 说明
  :---  |:---|:---|:---|:---
@@ -694,10 +697,10 @@ answerContent  |-     |Y         | 0-512字符  |答题选项， 是选择题则
  answerContent |Array |Y      | -     |答案内容，选择题中的元素为int，简答题为String
 
  
+
  
- 
- 
- 
+
+
  ### 2.9 下载问卷模板文件
 #### 文件地址
 ```
@@ -706,7 +709,7 @@ domain/template.xls
  #### 使用方式
  ```html
  <a href="url">下载模板</a>
-```
+ ```
 
 
  ### 2.10 上传问卷模板文件生成问卷
@@ -726,7 +729,7 @@ domain/template.xls
  参数  |	类型	| 是否必须 |	取值范围	| 说明
  :---  |:---|:---|:---|:---
  file  |FILE|Y         | -          |文件模板文件(Excel)
- 
+
  
 
  #### 返回参数
@@ -741,7 +744,7 @@ domain/template.xls
   参数  |	类型	| 是否必须 |	取值范围	| 说明
   :---  |:---  |:---      |:---        |:---
   code  |int   |Y         | -          |0.操作成功，1.系统异常，2.文件不合法
-  
+
   > #### 常见返回值情形
   code  | msg   
   :---  |:---   |
@@ -752,6 +755,6 @@ domain/template.xls
   2     | 文件类型不支持！
   2     | 文件大小限制在100KB以内！
   2     | 文件转换失败，请注意格式要求！
+
   
-  
-  
+
