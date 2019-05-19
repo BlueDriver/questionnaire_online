@@ -1,11 +1,11 @@
 # 在线问卷系统
+> 这是个前后端分离的、支持跨域访问的REST风格的`Vue.js`+`Spring Boot`项目，开发工具为`IDEA`，数据库为`MySQL`。由于当时时间匆忙及能力有限，部分功能实现有待进一步优化，可移步参考我最近整理的[SpringBoot 2.x+Maven多模块项目示例](https://github.com/BlueDriver/SpringBoot-rest-demo)进行修改。
 
 》[前端地址](https://github.com/Nice-Ming/Questionnaire-management/tree/master_online)《
 
 
 》[体验地址](http://www.niceming.cn/questionnaire/)《
 
-> 参考项目：[SpringBoot2.x+maven多模块项目示例](https://github.com/BlueDriver/SpringBoot-rest-demo)
 
 # 数据库名称：questionnaire
 字符集：UTF-8
